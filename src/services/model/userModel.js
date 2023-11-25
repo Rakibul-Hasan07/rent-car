@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 
 const userSchema = new mongoose.Schema({
+  image: {
+    type: String
+  },
   name: {
     type: String,
     required: [true, 'Please provide your name'],
@@ -12,7 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide an email'],
     trim: true,
-    unique: true,
+    unique: [true, 'Please provide unique email'],
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   password: {
@@ -28,7 +31,7 @@ const userSchema = new mongoose.Schema({
           minSymbols: 1,
         });
       },
-      message: 'Password must meet the strong password requirements',
+      message: 'Password must be the strong',
     },
   },
   confirmPassword: {
@@ -36,9 +39,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (value) {
-        return value === this.password;
+        return value == this.password;
       },
-      message: "Passwords don't match",
+      message: "Passwords dosen't match",
     },
   },
   conditions: {

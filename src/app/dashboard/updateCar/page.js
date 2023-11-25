@@ -1,113 +1,6 @@
-'use client'
+import React from 'react';
 
-import axios from "axios";
-import { useState } from "react"
-import toast from "react-hot-toast";
-
-
-export default function addCar() {
-
-    const [imagesPreview, setImagesPreview] = useState([]);
-    const [selectedImages, setSelectedImages] = useState([]);
-
-    const [acAvailabe, setAcAvailabe] = useState(false);
-    const [acWorking, setAcWorking] = useState(false);
-    const [blutooth, setBlutooth] = useState(false);
-    const [backupCamera, setBackupCamera] = useState(false);
-
-    const handleImageSelection = (e) => {
-        const files = Array.from(e.target.files);
-        setImagesPreview([])
-        setSelectedImages([...selectedImages, ...files]);
-        files.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setImagesPreview((oldArray) => [...oldArray, reader.result])
-                }
-            };
-            reader.readAsDataURL(file)
-        })
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const brandName = e.target.brandName.value;
-        const carModelName = e.target.carModelName.value;
-        const bodyType = e.target.bodyType.value;
-        const carYear = e.target.year.value;
-        const carTransmission = e.target.carTransmission.value;
-        const carEngineCapacity = e.target.carEngineCapacity.value;
-        const carFuelType = e.target.carFuelType.value;
-        const carSeatingCapacity = e.target.carSeatingCapacity.value;
-        const carNumberOfDoors = e.target.carNumberOfDoors.value;
-        const carMinimumRentalDays = e.target.carMinimumRentalDays.value;
-        const carMaximumRentalDays = e.target.carMaximumRentalDays.value;
-        const carColor = e.target.carColor.value;
-        const carConditon = e.target.carConditon.value;
-        const phoneNo = e.target.phoneNo.value;
-        const email = e.target.email.value;
-        const rentPricePerDay = e.target.rentPricePerDay.value;
-        const carDescription = e.target.message.value;
-        try {
-            const formDataArray = selectedImages.map((image, index) => {
-                const formData = new FormData();
-                formData.append("image", image);
-                formData.append("name", `Image ${index + 1}`);
-                return formData;
-            });
-
-            const uploadPromises = formDataArray.map((formData) =>
-                axios.post(
-                    `https://api.imgbb.com/1/upload?key=0908d2a66add35b8bb259f5e0708b76d`,
-                    formData
-                )
-            );
-
-            const responses = await Promise.all(uploadPromises);
-            const urls = responses.map((response) => response.data.data.url);
-
-            const carData = {
-                images: urls,
-                brandName,
-                carModelName,
-                bodyType,
-                carYear,
-                carTransmission,
-                carEngineCapacity,
-                carFuelType,
-                carSeatingCapacity,
-                carNumberOfDoors,
-                carMaximumRentalDays,
-                carMinimumRentalDays,
-                carColor,
-                carConditon,
-                phoneNo,
-                email,
-                rentPricePerDay,
-                carDescription,
-                acAvailabe,
-                acWorking,
-                blutooth,
-                backupCamera
-
-            };
-            const response = await axios.post('/api/car/upload-car', carData)
-                .then((response) => {
-                    console.log(response)
-                    if (response.status = 200) {
-                        toast.success('Car Upload Successfully')
-                    }
-                })
-                .catch((error) => {
-                    toast.error(error.message)
-                })
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-
+const updateCar = () => {
     return (
         <div className="bg-white px-4 py-10 sm:py-32 lg:px-6">
             <div className="mx-auto max-w-2xl text-center">
@@ -395,7 +288,6 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setAcAvailabe(!acAvailabe)}
                                 name='acAvailabe'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -412,7 +304,6 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setAcWorking(!acWorking)}
                                 name='acWorking'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -429,7 +320,6 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setBlutooth(!blutooth)}
                                 name='blutooth'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -446,7 +336,6 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setBackupCamera(!backupCamera)}
                                 name='backupCamera'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -484,5 +373,7 @@ export default function addCar() {
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
+
+export default updateCar;

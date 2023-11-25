@@ -11,7 +11,6 @@ export default function About() {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
-  console.log(inView)
   return (
     <section className='section flex items-center bg-pink-200 ' id="about">
       <div className='container mx-auto'>

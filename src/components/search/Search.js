@@ -47,8 +47,8 @@ export default function Search() {
       <h3 className='text-center my-6 text-2xl font-bold text-gray-400'>Search here what is your need!</h3>
       <form className='flex gap-4 items-center'>
         {/* City selection */}
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Select City
           </label>
           <div className="w-72">
@@ -119,8 +119,8 @@ export default function Search() {
         </div>
 
         {/* Area selection */}
-        <div class="mb-4 ">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <div className="mb-4 ">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Select Area
           </label>
           <div className="w-72">
@@ -191,8 +191,8 @@ export default function Search() {
         </div>
 
         {/* Pickup Date selection */}
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             PickUp Date
           </label>
           <div className="w-72">
@@ -235,8 +235,8 @@ export default function Search() {
 
         {/* Return date selection */}
 
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Return Date
           </label>
           <div className="w-72">

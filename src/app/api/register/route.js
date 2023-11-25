@@ -6,7 +6,16 @@ const salt = bcrypt.genSaltSync(10);
 export async function POST(request, content) {
   try {
     const requestData = await request.json();
+    const { email } = requestData;
     await DbConnect();
+    const findUser = await userModel.findOne({ email });
+    if (findUser) {
+      return NextResponse.json({
+        status: 400,
+        success: false,
+        error: { error: "Already use this email" },
+      })
+    }
 
     const newUser = await new userModel(requestData);
     newUser.password = await bcrypt.hash(newUser.password, salt)
@@ -29,11 +38,11 @@ export async function POST(request, content) {
       data: savedUser,
     });
   } catch (error) {
-    console.error(error.message);
+    console.error("message", error.message);
     return NextResponse.json({
       status: 500,
       success: false,
-      error: "Internal Server Error",
+      error: error,
     });
   }
 }

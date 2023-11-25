@@ -1,93 +1,60 @@
 import Image from 'next/image';
 import React from 'react';
-import { AiTwotoneStar } from 'react-icons/ai';
-
+import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
 const TestimonialCard = ({ datas }) => {
-    console.log(datas)
     return (
-        <div className='flex gap-10 px-6'>
-            <div className='p-5 md:px-1 rounded-3xl bg-gradient-to-r from-indigo-200 via-purple-400 to-pink-300'>
-                <div className='md:col-span-2 my-8 md:my-0 p-5'>
-                    <p className='md:text-xl'>
-                        Filler text is text that shares some characteristics of a real written text, but is random or otherwise generated.
-                        It may be used to display a sample of fonts,  generate text for testing, or to spoof an e-mail spam filter.
-                    </p>
-                </div>
-                <div className='flex flex-col items-center md:gap-y-2'>
-                    <Image className='rounded-full h-16 w-16 md:h-24 md:w-24' src="/rakib.jpg" width={150} height={400} alt="Picture of the author" />
-                    <span>
-                        <h4 className='font-bold text-xl'>
-                            Rakibul Hasan
-                        </h4>
-                        <p>
-                            Web Developer
+        <div class="w-[100vw] h-[85vh]">
+            <h4 className='text-2xl font-semibold m-3'>Happy Clients Says....</h4>
+            <div className='flex gap-10 justify-center items-center'>
+                <div className="bg-gray-200 mt-10 w-[400px] h-[70vh] rounded-[10px] flex flex-col justify-center items-center relative opacity-50">
+                    <Image className="w-[120px] h-[120px] rounded-[150px] border-4 border-white shadow-[50px] absolute top-0 translate-y-[-60px]" height={200} width={200} alt='' src="/cars.png" />
+                    <div className="text-center mt-20">
+                        <h1 className="text-2xl uppercase">Amy Liu</h1>
+                        <h2 className="text-xl uppercase py-3">CTO, Cybertech Solutions</h2>
+                    </div>
+                    <div className="overflow-hidden pl-[15px] pr-[30px] py-[10px] h-[100vh] m-0 z-[1px] relative">
+                        <p className="text-black text-xl text-center m-0 relative ml-4">
+                            <span className="relative">
+                                <span className="absolute -top-2 -left-6"><FaQuoteLeft /></span>
+                                I engage with the world, I was sold. Its integration capability and responsiveness are unlike anything Ive seen before. Were not just talking about a step forward in technology, but a quantum leap into the future.
+                                <span className="absolute -bottom-2 -right-6"><FaQuoteRight /></span>
+                            </span>
                         </p>
-                    </span>
-                    <span className='flex gap-2 text-orange-500 text-2xl'>
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                    </span>
+                    </div>
+                </div>
+                <div className="bg-gray-200 mt-10 w-[400px] h-[70vh] rounded-[10px] flex flex-col justify-center items-center relative opacity-50">
+                    <Image className="w-[120px] h-[120px] rounded-[150px] border-4 border-white shadow-[50px] absolute top-0 translate-y-[-60px]" height={200} width={200} alt='' src="/cars.png" />
+                    <div className="text-center mt-20">
+                        <h1 className="text-2xl uppercase">Amy Liu</h1>
+                        <h2 className="text-xl uppercase py-3">CTO, Cybertech Solutions</h2>
+                    </div>
+                    <div className="overflow-hidden pl-[15px] pr-[30px] py-[10px] h-[100vh] m-0 z-[1px] relative">
+                        <p className="text-black text-xl text-center m-0 relative ml-4">
+                            <span className="relative">
+                                <span className="absolute -top-2 -left-6"><FaQuoteLeft /></span>
+                                I engage with the world, I was sold. Its integration capability and responsiveness are unlike anything Ive seen before. Were not just talking about a step forward in technology, but a quantum leap into the future.
+                                <span className="absolute -bottom-2 -right-6"><FaQuoteRight /></span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div className="bg-gray-200 mt-10 w-[400px] h-[70vh] rounded-[10px] flex flex-col justify-center items-center relative opacity-50">
+                    <Image className="w-[120px] h-[120px] rounded-[150px] border-4 border-white shadow-[50px] absolute top-0 translate-y-[-60px]" height={200} width={200} alt='' src="/cars.png" />
+                    <div className="text-center mt-20">
+                        <h1 className="text-2xl uppercase">Amy Liu</h1>
+                        <h2 className="text-xl uppercase py-3">CTO, Cybertech Solutions</h2>
+                    </div>
+                    <div className="overflow-hidden pl-[15px] pr-[30px] py-[10px] h-[100vh] m-0 z-[1px] relative">
+                        <p className="text-black text-xl text-center m-0 relative ml-4">
+                            <span className="relative">
+                                <span className="absolute -top-2 -left-6"><FaQuoteLeft /></span>
+                                I engage with the world, I was sold. Its integration capability and responsiveness are unlike anything Ive seen before. Were not just talking about a step forward in technology, but a quantum leap into the future.
+                                <span className="absolute -bottom-2 -right-6"><FaQuoteRight /></span>
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
-
-            <div className='p-5 md:px-1 rounded-3xl bg-gradient-to-r from-indigo-200 via-purple-400 to-pink-300'>
-                <div className='md:col-span-2 my-8 md:my-0 p-5'>
-                    <p className='md:text-xl'>
-                        Filler text is text that shares some characteristics of a real written text, but is random or otherwise generated.
-                        It may be used to display a sample of fonts,  generate text for testing, or to spoof an e-mail spam filter.
-                    </p>
-                </div>
-                <div className='flex flex-col items-center md:gap-y-2'>
-                    <Image className='rounded-full h-16 w-16 md:h-24 md:w-24' src="/rakib.jpg" width={150} height={400} alt="Picture of the author" />
-                    <span>
-                        <h4 className='font-bold text-xl'>
-                            Rakibul Hasan
-                        </h4>
-                        <p>
-                            Web Developer
-                        </p>
-                    </span>
-                    <span className='flex gap-2 text-orange-500 text-2xl'>
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                    </span>
-                </div>
-            </div>
-
-            <div className='p-5 md:px-1 rounded-3xl bg-gradient-to-r from-indigo-200 via-purple-400 to-pink-300'>
-                <div className='md:col-span-2 my-8 md:my-0 p-5'>
-                    <p className='md:text-xl'>
-                        Filler text is text that shares some characteristics of a real written text, but is random or otherwise generated.
-                        It may be used to display a sample of fonts,  generate text for testing, or to spoof an e-mail spam filter.
-                    </p>
-                </div>
-                <div className='flex flex-col items-center md:gap-y-2'>
-                    <Image className='rounded-full h-16 w-16 md:h-24 md:w-24' src="/rakib.jpg" width={150} height={400} alt="Picture of the author" />
-                    <span>
-                        <h4 className='font-bold text-xl'>
-                            Rakibul Hasan
-                        </h4>
-                        <p>
-                            Web Developer
-                        </p>
-                    </span>
-                    <span className='flex gap-2 text-orange-500 text-2xl'>
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                        <AiTwotoneStar />
-                    </span>
-                </div>
-            </div>
-
-
         </div>
     );
 };

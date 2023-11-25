@@ -1,10 +1,11 @@
-'use client'
-import React from 'react'
+"use client"
 import CarsCard from './CarsCard'
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect, useContext } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { AiOutlineArrowDown, AiOutlineArrowRight, AiOutlineCheck } from 'react-icons/ai'
 import Link from 'next/link'
+import axios from "axios";
+import { Context } from '@/contexts/context'
 
 const people = [
   { id: 1, name: 'All Brand' },
@@ -14,9 +15,12 @@ const people = [
   { id: 5, name: 'Tanya Fox' },
   { id: 6, name: 'Hellen Schmidt' },
 ]
-export default function Cars() {
+
+
+const Cars = () => {
   const [selectedBrand, setSelectedBrand] = useState(people[0])
   const [query, setQuery] = useState('')
+  const { setLoading, carsData, setCarsData } = useContext(Context)
 
   const filteredPeople =
     query === ''
@@ -27,11 +31,28 @@ export default function Cars() {
           .replace(/\s+/g, '')
           .includes(query.toLowerCase().replace(/\s+/g, ''))
       )
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const response = await axios.get('/api/car/get-car');
+        setCarsData(response?.data?.data);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [setCarsData, setLoading]);
+
+
   return (
     <div className='mx-4'>
       <div className='flex items-start my-8'>
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Select Brand
           </label>
           <div className="w-52">
@@ -100,14 +121,16 @@ export default function Cars() {
             <div />
           </div>
         </div>
-        <div className='grid grid-cols-3 gap-10 ml-5 '>
-          {
-            [...Array(3)].map((item, idx) => <div key={idx}><CarsCard /></div>)
-          }
+        <div className='w-full'>
+          <div className='grid grid-cols-3 gap-5 mx-5 '>
+            {
+              carsData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
+            }
+          </div>
         </div>
       </div>
       <Link href='/cars'>
-        <div className='flex justify-end items-center mr-10 mb-6 hover:text-red-700'>
+        <div className='flex justify-end items-center mr-6 mb-6 hover:text-red-700'>
           <button className='rounded-lg p-2 text-lg'>View More</button>
           <AiOutlineArrowRight />
         </div>
@@ -115,3 +138,5 @@ export default function Cars() {
     </div>
   )
 }
+
+export default Cars;

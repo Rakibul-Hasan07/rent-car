@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
 import { FiHeart } from 'react-icons/fi'
 import { BiUser } from 'react-icons/bi'
@@ -10,6 +10,7 @@ import { AiOutlineClose, AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     return (
         <div className='flex items-center justify-between pt-5'>
             <div className='border-b border-gray-200 py-6'>
@@ -55,12 +56,11 @@ const Navbar = () => {
                         <Link className='navbar_link relative' href='/'>Home</Link>
                         <Link className='navbar_link relative' href='/cars'>Cars</Link>
                         <Link className='navbar_link relative' href='#'>FAQ</Link>
-                        <Link className='navbar_link relative' href='#'>Inventory</Link>
                         <Link className='navbar_link relative' href='#'>About</Link>
                         <Link className='navbar_link relative' href='/contact'>Contact</Link>
                         <Link className='navbar_link relative' href='/dashboard'>Dashboard</Link>
-                        <Link className='navbar_link relative' href='/auth/login'>Login</Link>
-                        <Link className='navbar_link relative' href='/auth/register'>Register</Link>
+                        {userInfo?.email ? <Link onClick={()=> localStorage.removeItem('userInfo')} className='navbar_link relative' href=''>LogOut</Link> : <> <Link className='navbar_link relative' href='/auth/login'>Login</Link>
+                            <Link className='navbar_link relative' href='/auth/register'>Register</Link></>}
                     </div>
                 </div>
             </div>

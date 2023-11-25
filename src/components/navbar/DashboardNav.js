@@ -9,7 +9,7 @@ const DashboardNav = () => {
     return (
         <div className='flex flex-col gap-5 m-6 divide-y divide-gray-400 divide-dashed'>
             <div>
-                <Image class="inline-block h-20 w-20 rounded-full ring-2 ring-white"
+                <Image className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
                     src="/cars.png" width={200} height={200} alt="" />
             </div>
             <div className='flex items-center gap-3 hover:text-red-500'>

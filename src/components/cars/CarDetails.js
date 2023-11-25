@@ -1,6 +1,6 @@
 'use client'
 import { Combobox, Transition } from '@headlessui/react';
-import { addDays } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 // Import Swiper React components
@@ -17,40 +17,62 @@ import './car.css';
 import { Pagination, Navigation } from 'swiper/modules';
 
 import Image from 'next/image';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { Calendar } from 'react-date-range';
 import { AiFillCheckCircle, AiOutlineCalendar, AiOutlineDown, AiOutlineUp, AiOutlineUsergroupAdd, AiTwotoneCar } from 'react-icons/ai';
 import { BsDoorOpenFill, BsFuelPumpDieselFill } from 'react-icons/bs';
-const people = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
-]
+import { Context } from '@/contexts/context';
+import axios from 'axios';
 
-const CarDetails = () => {
+const CarDetails = ({ detailsData }) => {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
     const [increaseDecrease, setIncreaseDecreace] = useState(1)
-    const [query, setQuery] = useState('')
-    const filteredPeople =
-        query === ''
-            ? people
-            : people.filter((person) =>
-                person.name
-                    .toLowerCase()
-                    .replace(/\s+/g, '')
-                    .includes(query.toLowerCase().replace(/\s+/g, ''))
-            )
+    const [district, setDistrict] = useState('')
+    const [city, setCity] = useState('')
+    const [street, setStreet] = useState('')
+    const { loading } = useContext(Context)
+    const { _id, acAvailabe, acWorking, backupCamera, blutooth,
+        bodyType, brandName, carColor, carConditon, carDescription,
+        carEngineCapacity, carFuelType, carMaximumRentalDays, carMinimumRentalDays,
+        carModelName, carNumberOfDoors, carSeatingCapacity, carTransmission, carYear,
+        rentPricePerDay, phoneNo } = detailsData;
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+
     const handleSelectStart = (date) => {
-        setStartDate(date)
+        const formattedStartDate = format(date, 'yyyy-MM-dd');
+        setStartDate(formattedStartDate)
 
     }
     // date picker function end date
     const handleSelectEnd = (date) => {
-        setEndDate(date)
+        const formattedEndDate = format(date, 'yyyy-MM-dd');
+        setEndDate(formattedEndDate)
+    }
+
+    const bookingInfo = {
+        pickupDate: startDate,
+        returnDate: endDate,
+        brandName,
+        district,
+        city,
+        street,
+        price: increaseDecrease * rentPricePerDay,
+        numberOfBookingDay: increaseDecrease,
+        bookingDate: format(new Date(), 'yyyy-MM-dd'),
+        userName: userInfo?.name,
+        userEmail: userInfo?.email
+    }
+    const handleBooking = () => {
+        try {
+            const response = axios.post('/api/car/bookings',
+                bookingInfo
+            )
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -58,7 +80,7 @@ const CarDetails = () => {
             <div className='grid grid-cols-3'>
                 <div className='col-span-2 bg-gray-200 p-4'>
                     <div className='mb-4'>
-                        <h4>Toyota 2021</h4>
+                        <h4>{brandName} {carYear}</h4>
                         <p>Bangladesh</p>
                     </div>
 
@@ -72,16 +94,16 @@ const CarDetails = () => {
                             modules={[Pagination, Navigation]}
                             className="mySwiper"
                         >
-                            <SwiperSlide><Image src='/cars.png' width={300} height={300} alt='cars'/></SwiperSlide>
-                            <SwiperSlide><Image src='/cars.png' width={300} height={300} alt='cars'/></SwiperSlide>
-                            <SwiperSlide><Image src='/cars.png' width={300} height={300} alt='cars'/></SwiperSlide>            
+                            {
+                                detailsData?.images?.map((image, idx) => <SwiperSlide key={idx}><Image src={image} width={300} height={300} alt='cars' /></SwiperSlide>)
+                            }
                         </Swiper>
                     </div>
 
                     {/* Description */}
                     <div className='my-4'>
                         <h5 className='text-xl'>Vehicle Description</h5>
-                        <p>This is Toyota car its is very good car</p>
+                        <p>{carDescription}</p>
                     </div>
 
                     {/* Features */}
@@ -89,24 +111,24 @@ const CarDetails = () => {
                         <h4 className='text-xl'>Features</h4>
                         <div className='grid grid-cols-4 gap-3 justify-between my-3'>
                             <div className='bg-white p-6 flex flex-col items-center'>
-                                <AiOutlineUsergroupAdd size={20}/>
+                                <AiOutlineUsergroupAdd size={20} />
                                 <h5>Seating Capacity</h5>
-                                <p>5</p>
+                                <p>{carSeatingCapacity}</p>
                             </div>
                             <div className='bg-white p-6 flex flex-col items-center'>
                                 <AiTwotoneCar size={20} />
                                 <h5>Transmission</h5>
-                                <p>Automatic</p>
+                                <p>{carTransmission}</p>
                             </div>
                             <div className='bg-white p-6 flex flex-col items-center'>
-                                <BsFuelPumpDieselFill size={20}/>
+                                <BsFuelPumpDieselFill size={20} />
                                 <h5>Fuel Type</h5>
-                                <p>Galosine</p>
+                                <p>{carFuelType}</p>
                             </div>
                             <div className='bg-white p-6 flex flex-col items-center'>
-                                <BsFuelPumpDieselFill size={20}/>
+                                <BsFuelPumpDieselFill size={20} />
                                 <h5>Engine Capacity</h5>
-                                <p>5L</p>
+                                <p>{carEngineCapacity}</p>
                             </div>
                         </div>
                     </div>
@@ -128,15 +150,15 @@ const CarDetails = () => {
                         <div className='bg-white p-4'>
                             <span className='flex items-center gap-2'>
                                 <BsDoorOpenFill />
-                                <p>4 Doors</p>
+                                <p>{carNumberOfDoors} Doors</p>
                             </span>
                             <span className='flex justify-between'>
                                 <p>Ac Available</p>
-                                <p>Yes</p>
+                                {acAvailabe ? <p>Yes</p> : <p>No</p>}
                             </span>
                             <span className='flex justify-between'>
                                 <p>Ac Working</p>
-                                <p>Yes</p>
+                                {acWorking ? <p>Yes</p> : <p>No</p>}
                             </span>
                         </div>
                     </div>
@@ -147,8 +169,8 @@ const CarDetails = () => {
                     {/* date selection */}
                     <div className='flex justify-between my-4'>
                         {/* Pickup Date selection */}
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                                 PickUp Date
                             </label>
                             <div className="w-40">
@@ -157,7 +179,7 @@ const CarDetails = () => {
                                         <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                                             <Combobox.Input
                                                 className="w-full border py-4 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                                                placeholder='Click to calendar icon'
+                                                value={startDate}
                                                 disabled
                                             />
                                             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -179,6 +201,7 @@ const CarDetails = () => {
                                                 <Calendar
                                                     date={new Date()}
                                                     onChange={handleSelectStart}
+                                                    format="dd/MM/yyyy"
                                                     minDate={addDays(new Date(), 0)}
                                                 />
                                             </Combobox.Options>
@@ -190,8 +213,8 @@ const CarDetails = () => {
                         </div>
                         {/* Return date selection */}
 
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                                 Return Date
                             </label>
                             <div className="w-40">
@@ -200,7 +223,7 @@ const CarDetails = () => {
                                         <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                                             <Combobox.Input
                                                 className="w-full border py-4 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                                                placeholder='Click to calendar icon'
+                                                value={endDate}
                                                 disabled
                                             />
                                             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -222,6 +245,7 @@ const CarDetails = () => {
                                                 <Calendar
                                                     onChange={handleSelectEnd}
                                                     date={new Date()}
+                                                    format="dd/MM/yyyy"
                                                     minDate={addDays(new Date(), 0)}
                                                 />
                                             </Combobox.Options>
@@ -231,18 +255,28 @@ const CarDetails = () => {
                                 <div />
                             </div>
                         </div>
+
                     </div>
                     {/* location  */}
                     <div>
                         <h4 className='mb-4'>Address/Location</h4>
-                        <div>
+                        <div className='flex items-center justify-between gap-6 mb-3'>
                             <p>District</p>
+                            <input onChange={(e) => setDistrict(e.target.value)} className="shadow appearance-none border rounded w-64 py-2 
+                                    px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="distict" placeholder='Type here........' />
                         </div>
-                        <div>
+                        <div className='flex items-center justify-between gap-6 mb-3'>
                             <p>City</p>
+                            <input onChange={(e) => setCity(e.target.value)} className="shadow appearance-none border rounded w-64 py-2 
+                                    px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="city" placeholder='Type here........' />
                         </div>
-                        <div>
+                        <div className='flex items-center justify-between gap-6'>
                             <p>Street</p>
+                            <input onChange={(e) => setStreet(e.target.value)} className="hadow appearance-none border rounded w-64 py-2 
+                                    px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="street" placeholder='Type here........' />
                         </div>
                     </div>
                     {/* rental info */}
@@ -252,23 +286,23 @@ const CarDetails = () => {
                             <div className='flex flex-col gap-2'>
                                 <span className='flex justify-between'>
                                     <p>Minimum Rental Days</p>
-                                    <p>1</p>
+                                    <p>{carMinimumRentalDays}</p>
                                 </span>
                                 <span className='flex justify-between'>
                                     <p>Maximum Rental Days</p>
-                                    <p>30</p>
+                                    <p>{carMaximumRentalDays}</p>
                                 </span>
                                 <span className='flex justify-between'>
                                     <p>Price Per Day</p>
-                                    <p>$300</p>
+                                    <p>${rentPricePerDay}</p>
                                 </span>
                             </div>
 
                             {/* days selection */}
                             <div>
-                                <div class="mb-4 mt-2">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                                        Number Of Days
+                                <div className="mb-4 mt-2">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                                        Number Of Rental Days
                                     </label>
                                     <div className='relative'>
                                         <input className="relative shadow appearance-none border rounded w-full py-2 
@@ -276,19 +310,19 @@ const CarDetails = () => {
                                             id="username" value={increaseDecrease} />
                                         <span className='absolute top-0 right-0'>
                                             <AiOutlineUp onClick={() => setIncreaseDecreace((pre) => pre + 1)} className='border' />
-                                            <AiOutlineDown onClick={() => setIncreaseDecreace((pre) => pre - 1)} className='border' />
+                                            <AiOutlineDown onClick={() => increaseDecrease > 1 ? setIncreaseDecreace(() => increaseDecrease - 1) : setIncreaseDecreace(() => increaseDecrease)} className='border' />
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div className='flex justify-between'>
                                 <h4>Total Price</h4>
-                                <p>${increaseDecrease * 3}</p>
+                                <p>${increaseDecrease * rentPricePerDay}</p>
                             </div>
                         </div>
                     </div>
                     <div className=''>
-                        <button className='bg-sky-200 w-full p-2 rounded-lg mt-8'>Book Now</button>
+                        <button onClick={handleBooking} className='bg-sky-200 w-full p-2 rounded-lg mt-8'>Book Now</button>
                     </div>
                 </div>
             </div>

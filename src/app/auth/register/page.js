@@ -1,11 +1,13 @@
 'use client'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../../../../varriants';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation'
+import axios from 'axios';
+import { Context } from '@/contexts/context';
 
 
 const Register = () => {
@@ -14,12 +16,21 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [conditions, setConditions] = useState(false)
+    const [registerError, setRegisterError] = useState('')
     const router = useRouter()
-
+    const { loading, setLoading } = useContext(Context)
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        const userInfo = {
+        const image = event.target.image.files[0];
+        const formData = new FormData();
+        formData.append('image', image);
+        const uploadImage = await axios.post(
+            `https://api.imgbb.com/1/upload?key=0908d2a66add35b8bb259f5e0708b76d`,
+            formData
+        )
+        const userData = {
+            image: uploadImage?.data?.data?.url,
             name,
             email,
             password,
@@ -32,14 +43,23 @@ const Register = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userInfo),
+                body: JSON.stringify(userData),
             });
             const result = await response.json();
-            if (result.status == 200) {
-                toast.success('Register Successfully')
-                router.push('/auth/login')
+            console.log(result)
+            if (result.status == 500) {
+                setRegisterError(result?.error?.errors?.confirmPassword?.message)
             }
-            console.log(result);
+            else if (result.status == 400) {
+                setRegisterError(result?.error?.error)
+            }
+            else if (result.status == 200) {
+                toast.success('Register Successfully')
+                localStorage.setItem('userInfo', JSON.stringify(result?.data))
+                setRegisterError('')
+                router.push('/')
+            } console.log(registerError)
+
         }
         catch (error) {
             console.error(error.message);
@@ -74,6 +94,17 @@ const Register = () => {
                             className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
 
                             <form onSubmit={handleRegister}>
+                                {/* <!-- Name input --> */}
+                                <div className="relative mb-6" data-te-input-wrapper-init>
+                                    <input
+                                        onChange={(e) => setName(e.target.value)}
+                                        type="file"
+                                        name='image'
+                                        className="peer block min-h-[auto] w-full rounded border border-black bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                                        id="name"
+                                        placeholder="Name" />
+
+                                </div>
                                 {/* <!-- Name input --> */}
                                 <div className="relative mb-6" data-te-input-wrapper-init>
                                     <input
@@ -136,7 +167,11 @@ const Register = () => {
                                     >Confirm Password
                                     </label>
                                 </div>
-
+                                <div className="relative mb-6" data-te-input-wrapper-init>
+                                    {registerError && <div>
+                                        <p className='text-red-500'>{registerError}</p>
+                                    </div>}
+                                </div>
                                 <div className="mb-6 flex items-center justify-between">
                                     {/* <!-- Remember me checkbox --> */}
                                     <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">

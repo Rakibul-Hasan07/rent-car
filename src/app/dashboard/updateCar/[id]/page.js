@@ -1,36 +1,39 @@
 'use client'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import axios from "axios";
-import { useState } from "react"
-import toast from "react-hot-toast";
+const updateCar = ({ params }) => {
+    const id = params.id;
 
-
-export default function addCar() {
-
-    const [imagesPreview, setImagesPreview] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
 
-    const [acAvailabe, setAcAvailabe] = useState(false);
-    const [acWorking, setAcWorking] = useState(false);
-    const [blutooth, setBlutooth] = useState(false);
-    const [backupCamera, setBackupCamera] = useState(false);
+    const [isAcAvailabe, setIsAcAvailabe] = useState(false);
+    const [isAcWorking, setIsAcWorking] = useState(false);
+    const [isBlutooth, setIsBlutooth] = useState(false);
+    const [isBackupCamera, setIsBackupCamera] = useState(false);
+
+    const [updateData, setUpdateData] = useState([])
+    const { _id, acAvailabe, acWorking, backupCamera, blutooth,
+        bodyType, brandName, carColor, carConditon, carDescription,
+        carEngineCapacity, carFuelType, carMaximumRentalDays, carMinimumRentalDays,
+        carModelName, carNumberOfDoors, carSeatingCapacity, carTransmission, carYear,
+        rentPricePerDay, phoneNo, email } = updateData;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get(`/api/car/get-car/${id}`)
+            setUpdateData(response?.data?.data)
+        }
+        fetchData();
+    }, [id])
 
     const handleImageSelection = (e) => {
         const files = Array.from(e.target.files);
-        setImagesPreview([])
         setSelectedImages([...selectedImages, ...files]);
-        files.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setImagesPreview((oldArray) => [...oldArray, reader.result])
-                }
-            };
-            reader.readAsDataURL(file)
-        })
     }
 
-    const handleSubmit = async (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
         const brandName = e.target.brandName.value;
         const carModelName = e.target.carModelName.value;
@@ -49,6 +52,7 @@ export default function addCar() {
         const email = e.target.email.value;
         const rentPricePerDay = e.target.rentPricePerDay.value;
         const carDescription = e.target.message.value;
+
         try {
             const formDataArray = selectedImages.map((image, index) => {
                 const formData = new FormData();
@@ -66,8 +70,9 @@ export default function addCar() {
 
             const responses = await Promise.all(uploadPromises);
             const urls = responses.map((response) => response.data.data.url);
+            console.log(urls)
 
-            const carData = {
+            const carUpdateData = {
                 images: urls,
                 brandName,
                 carModelName,
@@ -86,34 +91,33 @@ export default function addCar() {
                 email,
                 rentPricePerDay,
                 carDescription,
-                acAvailabe,
-                acWorking,
-                blutooth,
-                backupCamera
+                acAvailabe: isAcAvailabe,
+                acWorking: isAcWorking,
+                blutooth: isBlutooth,
+                backupCamera: isBackupCamera
 
             };
-            const response = await axios.post('/api/car/upload-car', carData)
+            const response = await axios.put(`/api/car/update-car/${id}`, carUpdateData)
                 .then((response) => {
                     console.log(response)
                     if (response.status = 200) {
-                        toast.success('Car Upload Successfully')
+                        toast.success('Car Update Successfully')
                     }
                 })
                 .catch((error) => {
                     toast.error(error.message)
                 })
+            console.log(carUpdateData)
         } catch (error) {
             console.error(error);
         }
     }
-
-
     return (
         <div className="bg-white px-4 py-10 sm:py-32 lg:px-6">
             <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl">Add Your Car</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl">Update Your Car</h2>
             </div>
-            <form onSubmit={handleSubmit} className="mx-auto mt-10 max-w-xl sm:mt-20">
+            <form onSubmit={handleUpdate} className="mx-auto mt-10 max-w-xl sm:mt-20">
                 <div>
                     <label htmlFor="file" className="block text-sm font-semibold leading-6 text-gray-900">
                         Upload Image
@@ -135,7 +139,7 @@ export default function addCar() {
                             Brand Name
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={brandName} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>Toyota</option>
                                 <option>Lamborgini</option>
@@ -156,6 +160,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={carModelName}
                                 type="text"
                                 name="carModelName"
                                 id="last-name"
@@ -170,6 +175,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={bodyType}
                                 type="text"
                                 name="bodyType"
                                 id="first-name"
@@ -183,7 +189,7 @@ export default function addCar() {
                             Year
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="year" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carYear} name="year" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>2016</option>
                                 <option>2017</option>
@@ -204,7 +210,7 @@ export default function addCar() {
                             Transmission
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carTransmission" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carTransmission} name="carTransmission" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>Automatic</option>
                                 <option>Manual</option>
@@ -219,7 +225,7 @@ export default function addCar() {
                             Engine Capacity
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carEngineCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carEngineCapacity} name="carEngineCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>0 L</option>
                                 <option>2 L</option>
@@ -237,7 +243,7 @@ export default function addCar() {
                             Fuel Type
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carFuelType" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carFuelType} name="carFuelType" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>Gasoline</option>
                                 <option>Oilline</option>
@@ -253,7 +259,7 @@ export default function addCar() {
                             Seating Capacity
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carSeatingCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carSeatingCapacity} name="carSeatingCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>1</option>
                                 <option>2</option>
@@ -276,7 +282,7 @@ export default function addCar() {
                             Number of Doors
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carNumberOfDoors" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carNumberOfDoors} name="carNumberOfDoors" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>2</option>
                                 <option>4</option>
@@ -292,6 +298,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={carMinimumRentalDays}
                                 type="text"
                                 name="carMinimumRentalDays"
                                 id="last-name"
@@ -306,6 +313,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={carMaximumRentalDays}
                                 type="text"
                                 name="carMaximumRentalDays"
                                 id="last-name"
@@ -320,6 +328,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={rentPricePerDay}
                                 type="text"
                                 name="rentPricePerDay"
                                 id="last-name"
@@ -333,7 +342,7 @@ export default function addCar() {
                             Color
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carColor" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carColor} name="carColor" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>Black</option>
                                 <option>Red</option>
@@ -351,7 +360,7 @@ export default function addCar() {
                             Car Conditon
                         </label>
                         <div className="relative mt-2.5">
-                            <select name="carConditon" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            <select defaultValue={carConditon} name="carConditon" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                 <option>Excelent</option>
                                 <option>Medium</option>
@@ -368,6 +377,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={phoneNo}
                                 type="text"
                                 name="phoneNo"
                                 id="last-name"
@@ -382,6 +392,7 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <input
+                                defaultValue={email}
                                 type="text"
                                 name="email"
                                 id="last-name"
@@ -395,7 +406,7 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setAcAvailabe(!acAvailabe)}
+                                onClick={() => setIsAcAvailabe(!isAcAvailabe)}
                                 name='acAvailabe'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -412,7 +423,7 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setAcWorking(!acWorking)}
+                                onClick={() => setIsAcWorking(!isAcWorking)}
                                 name='acWorking'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -429,7 +440,7 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setBlutooth(!blutooth)}
+                                onClick={() => setIsBlutooth(!isBlutooth)}
                                 name='blutooth'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -446,7 +457,7 @@ export default function addCar() {
                         {/* <!-- Remember me checkbox --> */}
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                             <input
-                                onClick={() => setBackupCamera(!backupCamera)}
+                                onClick={() => setIsBackupCamera(!isBackupCamera)}
                                 name='backupCamera'
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
@@ -465,11 +476,11 @@ export default function addCar() {
                         </label>
                         <div className="mt-2.5">
                             <textarea
+                                defaultValue={carDescription}
                                 name="message"
                                 id="message"
                                 rows={4}
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                defaultValue={''}
                             />
                         </div>
                     </div>
@@ -479,10 +490,12 @@ export default function addCar() {
                         type="submit"
                         className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        Create Car
+                        Update Car
                     </button>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
+
+export default updateCar;

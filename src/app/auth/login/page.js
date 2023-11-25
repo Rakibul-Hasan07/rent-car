@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [loginError, setLoginError] = useState('')
     const router = useRouter()
 
     const handleLogin = async (event) => {
@@ -30,11 +31,15 @@ const Login = () => {
                 body: JSON.stringify(userInfo)
             })
             const result = await response.json();
-            if(result.status == "Success"){
+            if (result.status == 'Failed') {
+                setLoginError(result?.message)
+            }
+            else if (result.status == "Success") {
                 toast.success('Login Successfully')
+                setLoginError('')
+                localStorage.setItem('userInfo', JSON.stringify(result?.data?.findUser))
                 router.push('/')
             }
-            console.log(result)
         }
         catch (error) {
             console.log(error)
@@ -97,6 +102,9 @@ const Login = () => {
                                     >Password
                                     </label>
                                 </div>
+                                {loginError && <div className="relative mb-6" data-te-input-wrapper-init>
+                                    <p className=' text-red-600'>{loginError}</p>
+                                </div>}
 
                                 <div className="mb-6 flex items-center justify-between">
                                     {/* <!-- Remember me checkbox --> */}
