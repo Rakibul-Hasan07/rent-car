@@ -23,6 +23,7 @@ import { AiFillCheckCircle, AiOutlineCalendar, AiOutlineDown, AiOutlineUp, AiOut
 import { BsDoorOpenFill, BsFuelPumpDieselFill } from 'react-icons/bs';
 import { Context } from '@/contexts/context';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const CarDetails = ({ detailsData }) => {
     const [startDate, setStartDate] = useState(new Date())
@@ -31,14 +32,13 @@ const CarDetails = ({ detailsData }) => {
     const [district, setDistrict] = useState('')
     const [city, setCity] = useState('')
     const [street, setStreet] = useState('')
-    const { loading } = useContext(Context)
     const { _id, acAvailabe, acWorking, backupCamera, blutooth,
         bodyType, brandName, carColor, carConditon, carDescription,
         carEngineCapacity, carFuelType, carMaximumRentalDays, carMinimumRentalDays,
         carModelName, carNumberOfDoors, carSeatingCapacity, carTransmission, carYear,
         rentPricePerDay, phoneNo } = detailsData;
 
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const { userInfo, loading } = useContext(Context);
 
     const handleSelectStart = (date) => {
         const formattedStartDate = format(date, 'yyyy-MM-dd');
@@ -64,12 +64,14 @@ const CarDetails = ({ detailsData }) => {
         userName: userInfo?.name,
         userEmail: userInfo?.email
     }
-    const handleBooking = () => {
+    const handleBooking = async () => {
         try {
-            const response = axios.post('/api/car/bookings',
+            const response = await axios.post('/api/car/bookings',
                 bookingInfo
             )
-            console.log(response.data)
+            if (response.data.status == 200) {
+                toast.success('Booking Successfull')
+            }
         } catch (error) {
             console.log(error)
         }

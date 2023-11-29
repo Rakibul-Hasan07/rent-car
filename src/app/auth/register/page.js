@@ -57,7 +57,7 @@ const Register = () => {
                 toast.success('Register Successfully')
                 localStorage.setItem('userInfo', JSON.stringify(result?.data))
                 setRegisterError('')
-                router.push('/')
+                router.push('/auth/login')
             } console.log(registerError)
 
         }

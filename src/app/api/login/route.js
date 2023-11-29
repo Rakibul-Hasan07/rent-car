@@ -8,7 +8,6 @@ export const POST = async (request, content) => {
     try {
         await DbConnect();
         const requestData = await request.json();
-        console.log(requestData);
         const { email, password } = requestData;
 
         if (!email || !password) {
@@ -19,7 +18,6 @@ export const POST = async (request, content) => {
         }
 
         const findUser = await userModel.findOne({ email });
-        console.log(findUser);
 
         if (!findUser) {
             return NextResponse.json({
@@ -29,7 +27,6 @@ export const POST = async (request, content) => {
         }
 
         const isValidPassword = await comparePassword(password, findUser.password);
-        console.log("first", isValidPassword);
 
         if (!isValidPassword) {
             return NextResponse.json({
@@ -43,7 +40,7 @@ export const POST = async (request, content) => {
         return NextResponse.json({
             status: "Success",
             message: "Login successfully",
-            data: { findUser, token }
+            data: { token }
         });
     } catch (error) {
         // Handle errors and return an error response

@@ -37,7 +37,7 @@ const Login = () => {
             else if (result.status == "Success") {
                 toast.success('Login Successfully')
                 setLoginError('')
-                localStorage.setItem('userInfo', JSON.stringify(result?.data?.findUser))
+                localStorage.setItem('Token', result?.data?.token)
                 router.push('/')
             }
         }

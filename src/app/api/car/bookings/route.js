@@ -10,9 +10,7 @@ router.post(async (request, content) => {
     try {
         DbConnect();
         const requestData = await request.json();
-        console.log(requestData)
         const bookingData = await new bookingModel(requestData)
-        console.log(bookingData)
         const savedBookingData = await bookingData.save();
         if (!savedBookingData) {
             return NextResponse.json({

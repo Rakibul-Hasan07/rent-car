@@ -6,10 +6,12 @@ import { NextResponse } from "next/server";
 const router = createRouter();
 
 router.get(async (request, content) => {
+    const { searchParams } = new URL(request.url)
+    const query = searchParams.get('email')
     try {
         await DbConnect();
-        const getBookingData = await bookingModel.find();
-        if (!getBookingData) {
+        const getUserBookingData = await bookingModel.find({ userEmail: query });
+        if (!getUserBookingData) {
             return NextResponse.json({
                 status: 400,
                 success: false,
@@ -19,7 +21,7 @@ router.get(async (request, content) => {
         return NextResponse.json({
             status: 200,
             success: true,
-            data: getBookingData,
+            data: getUserBookingData,
         });
     } catch (error) {
         return NextResponse.json({
@@ -28,9 +30,9 @@ router.get(async (request, content) => {
             message: "Server Error"
         })
     }
-})
 
 
+});
 
 export async function GET(request, content) {
     return router.run(request, content);

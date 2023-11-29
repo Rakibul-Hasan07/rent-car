@@ -27,10 +27,6 @@ const myCars = () => {
         }
         console.log(id)
     }
-    // const handleEdit = async (id) => {
-
-    //     console.log(id)
-    // }
     return (
         <div className=' bg-white px-6 py-10 h-[100vh] lg:px-8'>
             <table className="w-full">
