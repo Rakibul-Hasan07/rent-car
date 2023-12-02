@@ -1,39 +1,72 @@
+'use client'
+import { deleteCookie, getCookie } from '@/utils/cookies';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { createContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'
+import React, { createContext, useEffect, useState } from 'react';
 
 export const Context = createContext()
 
-import React from 'react';
 
 const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
     const [carsData, setCarsData] = useState([]);
     const [userInfo, setUserInfo] = useState([]);
+    const [wishList, setWishList] = useState([])
 
-    const router = useRouter();
+    const router = useRouter()
 
-    const token = localStorage.getItem("Token");
+
     useEffect(() => {
-        if (token) {
-            axios
-                .post(`/api/user-info`, { token })
-                .then((res) => {
-                    if (res.data.status == 200) {
-                        setUserInfo(res.data.data);
-                        setLoading(false);
-                    }
-                })
-                .catch((e) => console.log(e));
-        } else {
-            setLoading(false);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const authToken = await getCookie('authToken');
+                console.log(authToken);
+                if (authToken) {
+                    axios
+                        .post(`/api/user-info`, { authToken })
+                        .then((res) => {
+                            if (res.data.status == 200) {
+                                setUserInfo(res.data.data);
+                                setLoading(false);
+                            }
+                        })
+                        .catch((e) => console.log(e));
+                } else {
+                    setLoading(false);
+                }
+            } catch (error) {
+
+            }
         }
-    }, [token]);
+        fetchData();
+    }, []);
 
     const logOut = async () => {
-        localStorage.removeItem('Token')
-        router.refresh()
+        setLoading(true)
+        deleteCookie('authToken')
+        setUserInfo('')
+        router.push('/auth/login')
+        setLoading(false)
     }
+
+    // wishlist data fetching
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const response = await axios.get(`/api/car/wish-list?email=${userInfo?.email}`);
+                console.log(response.data)
+                setWishList(response?.data?.data)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [userInfo?.email, setLoading]);
+
 
     const contextInfo = {
         loading,
@@ -42,7 +75,9 @@ const ContextProvider = ({ children }) => {
         setCarsData,
         userInfo,
         setUserInfo,
-        logOut
+        logOut,
+        wishList,
+        setWishList
     }
     return (
         <Context.Provider value={contextInfo}>

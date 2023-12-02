@@ -14,8 +14,10 @@ router.post(async (request, content) => {
     )
     try {
         const requestData = await request.json();
-        const { token } = requestData;
-        const { payload } = await jose.jwtVerify(token, secret)
+        const { authToken } = requestData;
+        console.log(authToken)
+        const { payload } = await jose.jwtVerify(authToken, secret)
+        console.log(payload)
         const userEmail = payload?.email;
         const userdata = await userModel.findOne({ email: userEmail });
         if (userdata) {
@@ -35,7 +37,13 @@ router.post(async (request, content) => {
             })
         }
 
-    } catch (e) { }
+    } catch (error) {
+        return NextResponse.json({
+            success: false,
+            status: 400,
+            error: error
+        })
+    }
 });
 
 export const POST = (request, content) => {

@@ -12,9 +12,9 @@ export default function About() {
     threshold: 0.5,
   });
   return (
-    <section className='section flex items-center bg-pink-200 ' id="about">
-      <div className='container mx-auto'>
-        <div className='flex flex-col xl:flex-row gap-x-12 items-center xl:justify-between'>
+    <section className='section flex items-center bg-pink-200 h-[800px] lg:h-[550px]' id="about">
+      <div className='mx-auto'>
+        <div className='flex flex-col lg:flex-row mx-5 gap-x-12 items-center lg:justify-between'>
           {/* image */}
           <motion.div
             variants={fadeIn('up', '0.2')}
@@ -25,7 +25,7 @@ export default function About() {
             <Image
               className='rounded-[20px]'
               src={'/aboutcar3.jpg'}
-              width={550}
+              width={500}
               height={500}
               alt=''
             />
@@ -38,16 +38,16 @@ export default function About() {
                 initial='hidden'
                 whileInView={'show'}
                 viewport={{ once: false, amount: 0.2 }}
-                className='font-semibold text-2xl'
+                className='font-semibold text-2xl mt-4 lg:mt-0'
               >Car services aimplified.</motion.h2>
               <motion.p
                 variants={fadeIn('up', '0.2')}
                 initial='hidden'
                 whileInView={'show'}
                 viewport={{ once: false, amount: 0.2 }}
-                className='text-xl'
+                className='text-xl mt-4 md:mt-0'
               >Rent, choose, and repair with ease. Our convenient locations, diverse car types, and reliable repair points ensure a seamless car experience.</motion.p>
-              <div className='flex items-center gap-x-16 my-8'>
+              <div className='flex items-center gap-x-6 md:gap-x-16 my-8'>
                 {/* car types */}
                 <motion.div
                   variants={fadeIn('up', '0.2')}
@@ -106,7 +106,7 @@ export default function About() {
                 initial='hidden'
                 whileInView={'show'}
                 viewport={{ once: false, amount: 0.2 }}
-                className='hidden xl:block bg-accent hover:bg-accent-hover 
+                className=' bg-accent hover:bg-accent-hover 
                   rounded-[10px] w-full h-16 uppercase font-medium text-white
                    tracking-[2px] text-[13px] max-w-[184px]'>see car</motion.button>
             </div>

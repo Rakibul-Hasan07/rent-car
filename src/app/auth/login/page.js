@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { fadeIn } from '../../../../varriants';
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
+import { setCookie } from '@/utils/cookies';
 
 
 const Login = () => {
@@ -37,7 +38,7 @@ const Login = () => {
             else if (result.status == "Success") {
                 toast.success('Login Successfully')
                 setLoginError('')
-                localStorage.setItem('Token', result?.data?.token)
+                setCookie(result?.data?.token)
                 router.push('/')
             }
         }

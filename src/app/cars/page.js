@@ -64,7 +64,7 @@ const cars = () => {
                     </div>
                 </div>
                 <div className='w-full'>
-                    <div className='grid grid-cols-3 gap-5 ml-5 '>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-5 ml-5 '>
                         {
                             allCarData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
                         }

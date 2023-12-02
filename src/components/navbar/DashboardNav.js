@@ -9,12 +9,12 @@ import { MdOutlineRateReview } from 'react-icons/md';
 
 const DashboardNav = () => {
     const { userInfo } = useContext(Context)
-    console.log(userInfo)
     return (
         <div className='flex flex-col gap-5 m-6 divide-y divide-gray-400 divide-dashed'>
             <div>
                 <Image className="inline-block h-20 w-20 rounded-full ring-2 ring-white"
-                    src="/cars.png" width={200} height={200} alt="" />
+                    src={userInfo?.image} width={200} height={200} alt="" />
+                     <p className='mt-6'>{userInfo?.email}</p>
             </div>
             {
             userInfo.role == 'admin' ? 

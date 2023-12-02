@@ -8,7 +8,7 @@ export default function Hero() {
         <section className='flex h-screen xl:h-[90vh] bg-[#b2b7c2]/10' id='home'>
             <div className='container mx-auto h-full xl:pt-10'>
                 {/* text and image wrapper */}
-                <div className='flex flex-col justify-center items-center xl:flex-row xl:justify-start h-full'>
+                <div className='flex flex-col justify-center items-center lg:flex-row lg:justify-start h-full'>
                     <div className='text-center xl:max-w-xl xl:text-left mt-16 xl:mt-0'>
                         <motion.h1
                             variants={fadeIn('down', 0.2)}
@@ -41,7 +41,7 @@ export default function Hero() {
                         initial='hidden'
                         whileInView={'show'}
                         viewport={{ once: false, amount: 0.6 }}
-                        className='relative w-full h-full max-h-[50vh] md:max-w-[70vw] xl:max-w-[860px]
+                        className='relative w-full h-full max-h-[50vh] md:max-w-[70vw] lg:max-w[700px] lg:max-h-[420px] xl:max-w-[860px]
                      xl:max-h-[542px] xl:absolute xl:-right-[70px] min-[1680px] '>
                         <Image src='/cars.png' fill alt='' priority style={{ objectFit: 'contain' }} />
                     </motion.div>
