@@ -27,19 +27,19 @@ const myBooking = () => {
 
 
     return (
-        <div className=' bg-white px-6 py-10 h-[100vh] lg:px-8'>
+        <div className=' bg-white px-6 lg:py-10 h-[100vh] lg:px-8'>
 
-            <table className="w-full">
-                <thead>
-                    <tr className=''>
-                        <th>Booking Date</th>
-                        <th>User</th>
-                        <th>Pickup Date</th>
-                        <th>Return Date</th>
-                        <th>Price</th>
-                        <th>Payment Status</th>
-                        <th>CheckOut</th>
-                        <th>Status</th>
+<table className="min-w-full text-left text-sm font-light">
+              <thead className="border-b font-medium dark:border-neutral-500">
+                    <tr>
+                        <th scope="col" className="px-6 py-4">Booking Date</th>
+                        <th scope="col" className="px-6 py-4">User</th>
+                        <th scope="col" className="px-6 py-4">Pickup Date</th>
+                        <th scope="col" className="px-6 py-4">Return Date</th>
+                        <th scope="col" className="px-6 py-4">Price</th>
+                        <th scope="col" className="px-6 py-4">Payment Status</th>
+                        <th scope="col" className="px-6 py-4">CheckOut</th>
+                        <th scope="col" className="px-6 py-4">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,15 +50,15 @@ const myBooking = () => {
                         const returnFormatDate = format(new Date(returnDate), 'yyyy-MM-dd');
 
                         return (
-                            <tr key={_id} className=''>
-                                <td>{bookingFormatDate}</td>
-                                <td>{userName}</td>
-                                <td>{pickupFormatDate}</td>
-                                <td>{returnFormatDate}</td>
-                                <td>${price}</td>
-                                <td>{paymentStatus == false ? 'not paid' : 'paid'}</td>
-                                <td><button>CheckOut</button></td>
-                                <td>{status}</td>
+                            <tr key={_id} className="border-b dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{bookingFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{userName}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{pickupFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{returnFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">${price}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{paymentStatus == false ? 'not paid' : 'paid'}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium"><button>CheckOut</button></td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{status}</td>
                             </tr>
                         );
                     })}

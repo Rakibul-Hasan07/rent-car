@@ -28,30 +28,31 @@ const myCars = () => {
         console.log(id)
     }
     return (
-        <div className=' bg-white px-6 py-10 h-[100vh] lg:px-8'>
-            <table className="w-full">
-                <thead>
+        <div className=' bg-white px-6 py-10 min-h-[100vh] lg:px-8'>
+            <table className="min-w-full text-left text-sm font-light">
+                <thead className="border-b font-medium dark:border-neutral-500">
                     <tr className=''>
-                        <th>Brand Name</th>
-                        <th>Year</th>
-                        <th>Rent Price</th>
-                        <th>Minimun Rent Days</th>
-                        <th>Maximun Rent Days</th>
-                        <th>Action</th>
+                        <th scope="col" className="px-6 py-4">Brand Name</th>
+                        <th scope="col" className="px-6 py-4">Year</th>
+                        <th scope="col" className="px-6 py-4">Rent Price</th>
+                        <th scope="col" className="px-6 py-4">Minimun Rent Days</th>
+                        <th scope="col" className="px-6 py-4">Maximun Rent Days</th>
+                        <th scope="col" className="px-6 py-4">Action</th>
                     </tr>
                 </thead>
                 <tbody className=''>
                     {
                         myCar?.map((car) => {
-                            const { _id, brandName, rentPricePerDay, carYear, carMaximumRentalDays, carMinimunRentalDays } = car;
+                            const { _id, brandName, rentPricePerDay, carYear, carMaximumRentalDays, carMinimumRentalDays } = car;
+                            console.log(car)
                             return (
-                                <tr key={_id} className=''>
-                                    <td>{brandName}</td>
-                                    <td>{carYear}</td>
-                                    <td>{rentPricePerDay}</td>
-                                    <td>{carMaximumRentalDays}</td>
-                                    <td>{carMinimunRentalDays}</td>
-                                    <td className='flex gap-3'>
+                                <tr key={_id} className="border-b dark:border-neutral-500">
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium text-center">{brandName}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium text-center">{carYear}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium text-center">{rentPricePerDay}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium text-center">{carMinimumRentalDays}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium text-center">{carMaximumRentalDays}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium flex gap-5 text-center">
 
                                         <Link href={`/dashboard/updateCar/${_id}`}> <AiTwotoneEdit size={20} /></Link>
                                         <AiTwotoneDelete onClick={() => handleDelete(_id)} size={20} />

@@ -15,7 +15,7 @@ const Navbar = () => {
     const { userInfo, logOut, wishList } = useContext(Context)
     console.log(userInfo)
     return (
-        <div className='flex items-center justify-between pt-5 border border-red-500'>
+        <div className='flex items-center justify-between pt-5'>
             <div className='border-b border-gray-200 py-6'>
                 <div className='container sm:flex justify-between items-center'>
                     <div className='font-bold text-4xl text-center pb-4 z-20 fixed md:static left-5 top-3  text-black'>Logo</div>

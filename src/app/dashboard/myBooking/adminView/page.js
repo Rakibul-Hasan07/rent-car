@@ -6,6 +6,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { MdDeleteForever, MdOutlineCheck } from 'react-icons/md';
+import { FaChevronDown } from "react-icons/fa";
 
 const myBooking = () => {
     const [bookings, setBookings] = useState([])
@@ -47,41 +48,45 @@ const myBooking = () => {
     }
 
     return (
-        <div className=' bg-white px-6 py-10 h-[100vh] lg:px-8'>
+        <div className=' bg-white px-6 py-10 min-h-[100vh] w-full lg:px-8'>
 
-            <table className="w-full">
-                <thead>
+            <table className="min-w-full text-left text-sm font-light">
+                <thead className="border-b font-medium dark:border-neutral-500">
                     <tr className=''>
-                        <th>Booking Date</th>
-                        <th>User</th>
-                        <th>Pickup Date</th>
-                        <th>Return Date</th>
-                        <th>Price</th>
-                        <th>Payment Status</th>
-                        <th>Status</th>
+                        <th scope="col" className="px-6 py-4">Car Name</th>
+                        <th scope="col" className="px-6 py-4">Booking Date</th>
+                        <th scope="col" className="px-6 py-4">UserEmail</th>
+                        <th scope="col" className="px-6 py-4">Pickup Date</th>
+                        <th scope="col" className="px-6 py-4">Return Date</th>
+                        <th scope="col" className="px-6 py-4">Price</th>
+                        <th scope="col" className="px-6 py-4">Payment Status</th>
+                        <th scope="col" className="px-6 py-4">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {bookings?.map((booking) => {
-                        const { _id, bookingDate, paymentStatus, status, userName, pickupDate, returnDate, price } = booking;
+                        const { _id, bookingDate, brandName,userEmail, paymentStatus, status, userName, pickupDate, returnDate, price } = booking;
                         const bookingFormatDate = format(new Date(bookingDate), 'yyyy-MM-dd');
                         const pickupFormatDate = format(new Date(pickupDate), 'yyyy-MM-dd');
                         const returnFormatDate = format(new Date(returnDate), 'yyyy-MM-dd');
 
                         return (
-                            <tr key={_id} className=''>
-                                <td>{bookingFormatDate}</td>
-                                <td>{userName}</td>
-                                <td>{pickupFormatDate}</td>
-                                <td>{returnFormatDate}</td>
-                                <td>${price}</td>
-                                <td>{paymentStatus == false ? 'not paid' : 'paid'}</td>
-                                <td><div className="w-56 text-right">
+                            <tr className="border-b dark:border-neutral-500" key={_id}>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{brandName}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{bookingFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{userEmail}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{pickupFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{returnFormatDate}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">${price}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{paymentStatus == false ? 'not paid' : 'paid'}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium"><div className="w-56">
                                     <Menu as="div" className="relative inline-block text-left">
                                         <div>
-                                            <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black/30 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-                                                {status}
+                                            <Menu.Button className="inline-flex w-full items-center justify-center rounded-md bg-black/30 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+                                                <span>{status}</span>
+                                                <FaChevronDown />
                                             </Menu.Button>
+
                                         </div>
                                         <Transition
                                             as={Fragment}
