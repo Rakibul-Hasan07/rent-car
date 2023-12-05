@@ -1,7 +1,8 @@
 'use client'
-import { deleteCookie, getCookie } from '@/utils/cookies';
+import { deleteAuthCookie, deleteCookie, getCookie } from '@/utils/cookies';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'
+import { signOut } from "next-auth/react"
 import React, { createContext, useEffect, useState } from 'react';
 
 export const Context = createContext()
@@ -45,6 +46,8 @@ const ContextProvider = ({ children }) => {
     const logOut = async () => {
         setLoading(true)
         deleteCookie('authToken')
+        deleteAuthCookie('nextAuthToken')
+        signOut();
         setUserInfo('')
         router.push('/auth/login')
         setLoading(false)

@@ -15,9 +15,7 @@ router.post(async (request, content) => {
     try {
         const requestData = await request.json();
         const { authToken } = requestData;
-        console.log(authToken)
         const { payload } = await jose.jwtVerify(authToken, secret)
-        console.log(payload)
         const userEmail = payload?.email;
         const userdata = await userModel.findOne({ email: userEmail });
         if (userdata) {

@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import { AiFillFacebook, AiFillGithub, AiFillGoogleCircle } from 'react-icons/ai';
 import Link from 'next/link';
@@ -8,7 +8,8 @@ import { motion } from 'framer-motion';
 import { fadeIn } from '../../../../varriants';
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
-import { setCookie } from '@/utils/cookies';
+import { setAuthCookie, setCookie } from '@/utils/cookies';
+import { Context } from '@/contexts/context';
 
 
 const Login = () => {
@@ -16,6 +17,15 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState('')
     const router = useRouter()
+    const { setUserInfo } = useContext(Context)
+    const { data: session } = useSession()
+
+    if (session?.user) {  
+        console.log(session?.accessToken)
+        setAuthCookie(session?.accessToken)
+        setUserInfo(session?.user)
+        router.push('/')
+    }
 
     const handleLogin = async (event) => {
         event.preventDefault();

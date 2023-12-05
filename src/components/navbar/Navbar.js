@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
 import { FiHeart } from 'react-icons/fi'
 import { BiUser } from 'react-icons/bi'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signOut } from "next-auth/react"
 import { AiOutlineClose, AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai';
 import { Context } from '@/contexts/context';
 import Image from 'next/image';
@@ -15,17 +15,12 @@ const Navbar = () => {
     const { userInfo, logOut, wishList } = useContext(Context)
     console.log(userInfo)
     return (
-        <div className='flex items-center justify-between pt-5'>
-            <div className='border-b border-gray-200 py-6'>
-                <div className='container sm:flex justify-between items-center'>
-                    <div className='font-bold text-4xl text-center pb-4 z-20 fixed md:static left-5 top-3  text-black'>Logo</div>
-
-                </div>
-            </div>
+        <div className='flex items-center justify-between'>
+            <Image className='h-[50px] w-[50px] md:w-[100px] md:h-[100px] xl:h-[120px] xl:w-[120px]' src="/logo.png" height={100} width={150} alt="logo"/>
             <div className='md:hidden'>
                 {open ?
-                    <AiOutlineClose onClick={() => setOpen(!open)} className='z-20 fixed right-5 top-6' size={20} /> :
-                    <AiOutlineMenu onClick={() => setOpen(!open)} className='z-20 fixed right-5 top-6' size={20} />
+                    <AiOutlineClose onClick={() => setOpen(!open)} className='z-20 fixed right-5 top-5' size={20} /> :
+                    <AiOutlineMenu onClick={() => setOpen(!open)} className='z-20 fixed right-5 top-5' size={20} />
                 }
             </div>
 
@@ -37,7 +32,7 @@ const Navbar = () => {
                         <BsSearch className='absolute right-0 top-0 mr-3 mt-3 text-gray-400' size={20} />
                     </div>
                     <div className='flex gap-4 text-gray-500 text-[30px]'>
-                        {userInfo?.image ? <Image className='h-[50px] w-[50px]' src={userInfo?.image} height={50} width={50} alt='user image' title={userInfo?.name} /> : <BiUser />}
+                        {userInfo?.image ? <Image className='h-[30px] w-[30px] rounded-full' src={userInfo?.image} height={50} width={50} alt='user image' title={userInfo?.name} /> : <BiUser />}
                         <Link href='/wishlist'>
                             <div className='relative'>
                                 <FiHeart />
@@ -47,13 +42,6 @@ const Navbar = () => {
                                 </div>
                             </div>
                         </Link>
-                        <div className='relative'>
-                            <AiOutlineShopping />
-                            <div className='bg-red-600 rounded-full absolute top-0 right-0 w-[18px] h-[18px]
-                                            text-[12px] text-white grid place-items-center translate-x-1 -translate-y-1'>
-                                0
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div className='container'>
