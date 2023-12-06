@@ -80,6 +80,16 @@ const carSchema = new mongoose.Schema({
         required: [true, 'Please provide car description'],
         trim: true,
     },
+    carCity: {
+        type: String,
+        required: [true, 'Please provide city'],
+        trim: true,
+    },
+    carArea: {
+        type: String,
+        required: [true, 'Please provide area'],
+        trim: true,
+    },
     acWorking: {
         type: Boolean
     },

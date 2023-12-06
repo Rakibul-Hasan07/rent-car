@@ -8,6 +8,7 @@ import React, { useContext, useEffect, useState } from 'react';
 const cars = () => {
     const [allCarData, setAllCarData] = useState([])
     const { setLoading } = useContext(Context)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,7 +27,7 @@ const cars = () => {
     console.log(allCarData)
     return (
         <div className='mx-4'>
-            <Search />
+            <Search getSearchResults={(results) => setAllCarData(results)} />
             <div className='flex items-start my-8'>
                 <div className='w-40'>
                     <label htmlFor="brandName" className="block text-sm font-semibold leading-6 text-gray-900">

@@ -41,7 +41,7 @@ const ContextProvider = ({ children }) => {
             }
         }
         fetchData();
-    }, []);
+    }, [setLoading]);
 
     const logOut = async () => {
         setLoading(true)

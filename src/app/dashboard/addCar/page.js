@@ -49,6 +49,8 @@ export default function addCar() {
         const email = e.target.email.value;
         const rentPricePerDay = e.target.rentPricePerDay.value;
         const carDescription = e.target.message.value;
+        const carCity = e.target.city.value;
+        const carArea = e.target.area.value;
         try {
             const formDataArray = selectedImages.map((image, index) => {
                 const formData = new FormData();
@@ -89,7 +91,9 @@ export default function addCar() {
                 acAvailabe,
                 acWorking,
                 blutooth,
-                backupCamera
+                backupCamera,
+                carCity,
+                carArea
 
             };
             const response = await axios.post('/api/car/upload-car', carData)
@@ -356,6 +360,44 @@ export default function addCar() {
                                 <option>Excelent</option>
                                 <option>Medium</option>
                                 <option>New Car</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                            City
+                        </label>
+                        <div className="relative mt-2.5">
+                            <select name="city" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <option>Dhaka</option>
+                                <option>Rajshahi</option>
+                                <option>Khulna</option>
+                                <option>Sirajganj</option>
+                                <option>Bogura</option>
+                                <option>Rangpur</option>
+                                <option>Gazipur</option>
+                                <option>Tangail</option>
+                                <option>Pabna</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                            Area
+                        </label>
+                        <div className="relative mt-2.5">
+                            <select name="area" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                <option>Kamarkhand</option>
+                                <option>Belkuchi</option>
+                                <option>Kazipur</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
