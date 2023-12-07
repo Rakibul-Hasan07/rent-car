@@ -29,8 +29,8 @@ const myBooking = () => {
     return (
         <div className=' bg-white px-6 lg:py-10 h-[100vh] lg:px-8'>
 
-<table className="min-w-full text-left text-sm font-light">
-              <thead className="border-b font-medium dark:border-neutral-500">
+            <table className="min-w-full text-left text-sm font-light">
+                <thead className="border-b font-medium dark:border-neutral-500">
                     <tr>
                         <th scope="col" className="px-6 py-4">Booking Date</th>
                         <th scope="col" className="px-6 py-4">User</th>

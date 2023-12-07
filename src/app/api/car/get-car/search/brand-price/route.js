@@ -6,9 +6,28 @@ import { NextResponse } from "next/server";
 const router = createEdgeRouter()
 
 router.get(async (request, content) => {
+    const { searchParams } = new URL(request.url)
+    const brand = searchParams.get('brand')
+    const price = searchParams.get('price')
+
+    console.log(brand, price)
     try {
         DbConnect();
-        const getData = await carModel.find();
+        const query = {
+            $or: [
+                { brandName: { $regex: brand, $options: 'i' } },
+            ],
+        };
+        let getData = await carModel.find(query);
+
+        if (price === 'High To Low') {
+            getData = [...getData].sort((a, b) => b.rentPricePerDay - a.rentPricePerDay);
+        }
+
+        if (price === 'Low To High') {
+            getData = [...getData].sort((a, b) => a.rentPricePerDay - b.rentPricePerDay);
+        }
+
         if (!getData) {
             return NextResponse.json({
                 status: 400,

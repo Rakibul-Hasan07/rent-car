@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { setAuthCookie, setCookie } from '@/utils/cookies';
 import { Context } from '@/contexts/context';
+import Loader from '@/components/loader/Loader';
 
 
 const Login = () => {
@@ -17,10 +18,10 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState('')
     const router = useRouter()
-    const { setUserInfo } = useContext(Context)
+    const { setUserInfo, loading, setIsLogin } = useContext(Context)
     const { data: session } = useSession()
 
-    if (session?.user) {  
+    if (session?.user) {
         console.log(session?.accessToken)
         setAuthCookie(session?.accessToken)
         setUserInfo(session?.user)
@@ -46,9 +47,13 @@ const Login = () => {
                 setLoginError(result?.message)
             }
             else if (result.status == "Success") {
-                toast.success('Login Successfully')
                 setLoginError('')
                 setCookie(result?.data?.token)
+                setIsLogin(true);
+                if (loading) {
+                    return <Loader />
+                }
+                toast.success('Login Successfully')
                 router.push('/')
             }
         }

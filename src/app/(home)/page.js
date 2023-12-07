@@ -11,14 +11,14 @@ import Search from "@/components/search/Search";
 export default function Home() {
   return (
     <main className="max-w[1920px] bg-white mx-auto relative overflow-hidden">
-      <Hero/>
-      <AllBrands/>
-      <Search/>
-      <Cars/>
-      <About/>
-      <Testimonial/>
-      <Footer/>
-      <CopyRight/>
+      <Hero />
+      <AllBrands />
+      <Search getSearchResults />
+      <Cars />
+      <About />
+      <Testimonial />
+      <Footer />
+      <CopyRight />
     </main>
   )
 }

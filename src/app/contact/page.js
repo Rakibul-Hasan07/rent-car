@@ -4,7 +4,7 @@ import { MdLocationPin } from 'react-icons/md'
 
 export default function contact() {
     return (
-        <div className='flex flex-col-reverse md:flex-row gap-4 justify-center items-center px-12'>
+        <div className='bg-gray-50 h-[100vh] flex flex-col-reverse md:flex-row gap-4 justify-center items-center px-12'>
             <div className='flex-1'>
                 <h1 className='text-xl'>Get in Touch</h1>
                 <p className='max-w-[500px]'>lorem This handy tool helps you create dummy text for all your layout needs.

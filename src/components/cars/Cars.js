@@ -8,17 +8,30 @@ import { Context } from '@/contexts/context'
 
 
 const Cars = () => {
-  const { setLoading } = useContext(Context)
+  const { setLoading, searchResult, setSearchResult } = useContext(Context)
   const [carsData, setCarsData] = useState([])
   const [brand, setBrand] = useState('')
 
-  console.log(brand)
+  console.log(searchResult)
+
+  useEffect(() => {
+    if (searchResult.length) {
+      setCarsData(searchResult)
+      setSearchResult([])
+      return;
+    }
+  }, [setSearchResult, searchResult])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`/api/car/get-car?brand=${brand}`);
+        if (brand) {
+          const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}`);
+          setCarsData(response?.data?.data);
+          return;
+        }
+        const response = await axios.get(`/api/car/get-car`);
         setCarsData(response?.data?.data);
         setLoading(false)
       } catch (error) {
@@ -38,7 +51,7 @@ const Cars = () => {
             <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
               Brand Name
             </label>
-            <div className="relative mt-2.5">
+            <div className="relative mt-2.5 shadow-lg">
               <select onChange={(e) => setBrand(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                 <option>Toyota</option>

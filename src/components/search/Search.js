@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { AiOutlineCalendar } from 'react-icons/ai'
 import 'react-date-range/dist/styles.css'; // main style file
@@ -7,13 +7,15 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { Calendar } from 'react-date-range';
 import { addDays } from 'date-fns';
 import axios from 'axios';
+import { Context } from '@/contexts/context';
 
 
-export default function Search({ getSearchResults }) {
+export default function Search() {
   const [selectedCity, setSelectedCity] = useState('')
   const [selectedArea, setSelectedArea] = useState('')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
+  const { setSearchResult } = useContext(Context)
 
   // date picker function start date
   const handleSelectStart = (date) => {
@@ -28,7 +30,7 @@ export default function Search({ getSearchResults }) {
   const handleSearch = async (e) => {
     e.preventDefault();
     const response = await axios.get(`api/car/get-car/search?city=${selectedCity}&area=${selectedArea}`)
-    getSearchResults(response?.data?.data)
+    setSearchResult(response?.data?.data)
     console.log(response?.data?.data)
   }
 
@@ -43,7 +45,7 @@ export default function Search({ getSearchResults }) {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
               City
             </label>
-            <div className="relative">
+            <div className="relative shadow-lg">
               <select onChange={(e) => setSelectedCity(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                 <option>Dhaka</option>
@@ -68,7 +70,7 @@ export default function Search({ getSearchResults }) {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
               Area
             </label>
-            <div className="relative">
+            <div className="relative shadow-lg">
               <select onChange={(e) => setSelectedArea(e.target.value)} name="areaName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                 <option>Kamarkhand</option>
@@ -170,7 +172,7 @@ export default function Search({ getSearchResults }) {
 
           {/* Submit button  */}
           <div>
-            <button type='submit' className='bg-sky-500 w-72 xl:w-60 rounded-lg p-3 mt-3 text-white text-sm'>Search</button>
+            <button type='submit' className='bg-sky-500 w-72 xl:w-60 shadow-lg rounded-lg p-3 mt-3 text-white text-sm'>Search</button>
           </div>
         </form>
       </div>

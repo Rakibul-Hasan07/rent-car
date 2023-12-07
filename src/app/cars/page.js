@@ -7,13 +7,29 @@ import React, { useContext, useEffect, useState } from 'react';
 
 const cars = () => {
     const [allCarData, setAllCarData] = useState([])
-    const { setLoading } = useContext(Context)
+    const { setLoading, searchResult, setSearchResult } = useContext(Context)
+    const [brand, setBrand] = useState('')
+    const [price, setPrice] = useState('')
+
+    console.log(searchResult)
+    useEffect(() => {
+        if (searchResult.length) {
+            setAllCarData(searchResult)
+            setSearchResult([])
+            return;
+        }
+    }, [setSearchResult, searchResult])
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get('/api/car/get-car');
+                if (brand || price) {
+                    const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}&price=${price}`);
+                    setAllCarData(response?.data?.data);
+                    return;
+                }
+                const response = await axios.get(`/api/car/get-car`);
                 setAllCarData(response?.data?.data);
                 setLoading(false)
             } catch (error) {
@@ -22,19 +38,19 @@ const cars = () => {
         };
 
         fetchData();
-    }, [setAllCarData, setLoading]);
+    }, [setAllCarData, setLoading, brand, price]);
 
     console.log(allCarData)
     return (
         <div className='mx-4'>
-            <Search getSearchResults={(results) => setAllCarData(results)} />
+            <Search />
             <div className='flex items-start my-8'>
                 <div className='w-40'>
                     <label htmlFor="brandName" className="block text-sm font-semibold leading-6 text-gray-900">
                         Brand Name
                     </label>
-                    <div className="relative mt-2.5">
-                        <select name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                    <div className="relative mt-2.5 shadow-lg">
+                        <select onChange={(e) => setBrand(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                             <option>Toyota</option>
                             <option>Lamborgini</option>
@@ -53,8 +69,8 @@ const cars = () => {
                     <label htmlFor="sortPrice" className="block text-sm font-semibold leading-6 text-gray-900">
                         Sort Price
                     </label>
-                    <div className="relative mt-2.5">
-                        <select name="sortPrice" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                    <div className="relative mt-2.5 shadow-lg">
+                        <select onChange={(e) => setPrice(e.target.value)} name="sortPrice" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
                             rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                             <option>High To Low</option>
                             <option>Low To High</option>
@@ -67,9 +83,10 @@ const cars = () => {
                 <div className='w-full'>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-5 ml-5 '>
                         {
-                            allCarData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
+                            allCarData.length <= 0 ? 'Not Found' : allCarData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
                         }
                     </div>
+
                 </div>
             </div>
         </div>

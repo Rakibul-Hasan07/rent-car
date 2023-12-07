@@ -10,9 +10,11 @@ export const Context = createContext()
 
 const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
+    const [isLogin, setIsLogin] = useState(false);
     const [carsData, setCarsData] = useState([]);
     const [userInfo, setUserInfo] = useState([]);
     const [wishList, setWishList] = useState([])
+    const [searchResult, setSearchResult] = useState([])
 
     const router = useRouter()
 
@@ -22,8 +24,7 @@ const ContextProvider = ({ children }) => {
             try {
                 setLoading(true);
                 const authToken = await getCookie('authToken');
-                console.log(authToken);
-                if (authToken) {
+                if (authToken || isLogin) {
                     axios
                         .post(`/api/user-info`, { authToken })
                         .then((res) => {
@@ -41,7 +42,7 @@ const ContextProvider = ({ children }) => {
             }
         }
         fetchData();
-    }, [setLoading]);
+    }, [isLogin]);
 
     const logOut = async () => {
         setLoading(true)
@@ -50,6 +51,7 @@ const ContextProvider = ({ children }) => {
         signOut();
         setUserInfo('')
         router.push('/auth/login')
+        setIsLogin(false)
         setLoading(false)
     }
 
@@ -80,7 +82,11 @@ const ContextProvider = ({ children }) => {
         setUserInfo,
         logOut,
         wishList,
-        setWishList
+        setWishList,
+        searchResult,
+        setSearchResult,
+        isLogin,
+        setIsLogin
     }
     return (
         <Context.Provider value={contextInfo}>
