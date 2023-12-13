@@ -66,7 +66,7 @@ const CarDetails = ({ detailsData }) => {
     }
     const handleBooking = async () => {
         try {
-            const response = await axios.post('/api/car/bookings',
+            const response = await axios.post('/api/car/bookings', { cache: 'no-store' },
                 bookingInfo
             )
             if (response.data.status == 200) {
@@ -172,7 +172,7 @@ const CarDetails = ({ detailsData }) => {
                     <div className='flex justify-between my-4'>
                         {/* Pickup Date selection */}
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pickUpDate">
                                 PickUp Date
                             </label>
                             <div className="w-40">
@@ -182,6 +182,7 @@ const CarDetails = ({ detailsData }) => {
                                             <Combobox.Input
                                                 className="w-full border py-4 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
                                                 value={startDate}
+                                                id="pickUpDate"
                                                 disabled
                                             />
                                             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -216,7 +217,7 @@ const CarDetails = ({ detailsData }) => {
                         {/* Return date selection */}
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="returnUpDate">
                                 Return Date
                             </label>
                             <div className="w-40">
@@ -226,6 +227,7 @@ const CarDetails = ({ detailsData }) => {
                                             <Combobox.Input
                                                 className="w-full border py-4 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
                                                 value={endDate}
+                                                id='returnUpDate'
                                                 disabled
                                             />
                                             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -303,13 +305,13 @@ const CarDetails = ({ detailsData }) => {
                             {/* days selection */}
                             <div>
                                 <div className="mb-4 mt-2">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="rentDays">
                                         Number Of Rental Days
                                     </label>
                                     <div className='relative'>
                                         <input className="relative shadow appearance-none border rounded w-full py-2 
                                     px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            id="username" value={increaseDecrease} />
+                                            id="rentDays" value={increaseDecrease} />
                                         <span className='absolute top-0 right-0'>
                                             <AiOutlineUp onClick={() => setIncreaseDecreace((pre) => pre + 1)} className='border' />
                                             <AiOutlineDown onClick={() => increaseDecrease > 1 ? setIncreaseDecreace(() => increaseDecrease - 1) : setIncreaseDecreace(() => increaseDecrease)} className='border' />

@@ -4,7 +4,6 @@ import React, { useContext, useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
 import { FiHeart } from 'react-icons/fi'
 import { BiUser } from 'react-icons/bi'
-import { signOut } from "next-auth/react"
 import { AiOutlineClose, AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai';
 import { Context } from '@/contexts/context';
 import Image from 'next/image';
@@ -28,7 +27,7 @@ const Navbar = () => {
              top-0 md:h-auto h-screen duration-500 ease-linear  ${!open ? 'right-[-100%]' : 'right-0'}`}>
                 <div className='flex justify-between items-center'>
                     <div className='hidden md:block w-full sm:w-[300px] md:w-[60%] lg:w-[70%] relative'>
-                        <input className='border-gray-200 border p-2 px-4 rounded-lg w-full' type='text' placeholder='Enter car name...' />
+                        <input className='border-gray-200 border p-2 px-4 rounded-lg w-full' type='text' name='car' placeholder='Enter car name...' />
                         <BsSearch className='absolute right-0 top-0 mr-3 mt-3 text-gray-400' size={20} />
                     </div>
                     <div className='flex gap-4 text-gray-500 text-[30px]'>

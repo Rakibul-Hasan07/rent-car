@@ -1,14 +1,13 @@
 'use client'
 import Image from 'next/image';
 import React, { useContext, useState } from 'react';
-import { useSession, signIn, signOut } from "next-auth/react"
 import { AiFillFacebook, AiFillGithub, AiFillGoogleCircle } from 'react-icons/ai';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../../../../varriants';
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
-import { setAuthCookie, setCookie } from '@/utils/cookies';
+import { setCookie } from '@/utils/cookies';
 import { Context } from '@/contexts/context';
 import Loader from '@/components/loader/Loader';
 
@@ -17,16 +16,10 @@ const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState('')
+    const [refreshPage, setRefreshPage] = useState(false)
     const router = useRouter()
-    const { setUserInfo, loading, setIsLogin } = useContext(Context)
-    const { data: session } = useSession()
+    const { loading, setIsLogin } = useContext(Context)
 
-    if (session?.user) {
-        console.log(session?.accessToken)
-        setAuthCookie(session?.accessToken)
-        setUserInfo(session?.user)
-        router.push('/')
-    }
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -37,6 +30,7 @@ const Login = () => {
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
+                cache: 'no-store',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -54,6 +48,7 @@ const Login = () => {
                     return <Loader />
                 }
                 toast.success('Login Successfully')
+                setRefreshPage(!refreshPage)
                 router.push('/')
             }
         }
@@ -93,7 +88,7 @@ const Login = () => {
                                 <div className="relative mb-6" data-te-input-wrapper-init>
                                     <input
                                         onChange={(e) => setEmail(e.target.value)}
-                                        type="text"
+                                        type="email"
                                         className="peer block min-h-[auto] w-full rounded border border-black bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                                         id="email"
                                         placeholder="Email address" />
@@ -172,7 +167,6 @@ const Login = () => {
 
                                     {/* <!-- Google --> */}
                                     <button
-                                        onClick={() => signIn()}
                                         type="button"
                                         data-te-ripple-init
                                         data-te-ripple-color="light"

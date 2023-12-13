@@ -8,7 +8,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { MdDeleteForever, MdOutlineCheck } from 'react-icons/md';
 import { FaChevronDown } from "react-icons/fa";
 
-const myBooking = () => {
+const AdminBooking = () => {
     const [bookings, setBookings] = useState([])
     const { setLoading } = useContext(Context)
 
@@ -16,7 +16,7 @@ const myBooking = () => {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get('/api/car/bookings/my-car');
+                const response = await axios.get('/api/car/bookings/my-car', { cache: 'no-store' });
                 setBookings(response?.data?.data)
                 setLoading(false)
             } catch (error) {
@@ -37,14 +37,14 @@ const myBooking = () => {
         status: 'Rejected',
     };
     const handlePending = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, pendingData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, pendingData)
     }
     const handleReject = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, rejectData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, rejectData)
     }
 
     const handleApproved = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, approveData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, approveData)
     }
 
     return (
@@ -65,7 +65,7 @@ const myBooking = () => {
                 </thead>
                 <tbody>
                     {bookings?.map((booking) => {
-                        const { _id, bookingDate, brandName,userEmail, paymentStatus, status, userName, pickupDate, returnDate, price } = booking;
+                        const { _id, bookingDate, brandName, userEmail, paymentStatus, status, userName, pickupDate, returnDate, price } = booking;
                         const bookingFormatDate = format(new Date(bookingDate), 'yyyy-MM-dd');
                         const pickupFormatDate = format(new Date(pickupDate), 'yyyy-MM-dd');
                         const returnFormatDate = format(new Date(returnDate), 'yyyy-MM-dd');
@@ -179,4 +179,4 @@ const myBooking = () => {
     );
 };
 
-export default myBooking;
+export default AdminBooking;

@@ -6,6 +6,7 @@ import Hero from "../../components/hero/Hero";
 import Testimonial from "../../components/testimonial/Testimonial";
 import Footer from "@/components/footer/Footer";
 import Search from "@/components/search/Search";
+import Loader from "@/components/loader/Loader";
 
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
     <main className="max-w[1920px] bg-white mx-auto relative overflow-hidden">
       <Hero />
       <AllBrands />
-      <Search getSearchResults />
+      <Search />
       <Cars />
       <About />
       <Testimonial />

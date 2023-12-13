@@ -5,10 +5,11 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 import Link from 'next/link'
 import axios from "axios";
 import { Context } from '@/contexts/context'
+import Loader from '../loader/Loader'
 
 
 const Cars = () => {
-  const { setLoading, searchResult, setSearchResult } = useContext(Context)
+  const { loading, setLoading, searchResult, setSearchResult } = useContext(Context)
   const [carsData, setCarsData] = useState([])
   const [brand, setBrand] = useState('')
 
@@ -27,11 +28,11 @@ const Cars = () => {
       try {
         setLoading(true)
         if (brand) {
-          const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}`);
+          const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}`, { cache: 'no-store' });
           setCarsData(response?.data?.data);
           return;
         }
-        const response = await axios.get(`/api/car/get-car`);
+        const response = await axios.get(`/api/car/get-car`, { cache: 'no-store' });
         setCarsData(response?.data?.data);
         setLoading(false)
       } catch (error) {
@@ -42,18 +43,22 @@ const Cars = () => {
     fetchData();
   }, [brand, setLoading]);
 
+  if(loading){
+    return <Loader/>
+  }
+
 
   return (
     <div>
       <div className='flex flex-col items-center justify-center'>
         <div className='flex flex-col justify-center lg:flex-row items-center lg:items-start my-4 md:my-8'>
           <div className='w-72 xl:w-60'>
-            <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+            <label htmlFor="brandName" className="block text-sm font-semibold leading-6 text-gray-900">
               Brand Name
             </label>
             <div className="relative mt-2.5 shadow-lg">
               <select onChange={(e) => setBrand(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="brandName">
                 <option>Toyota</option>
                 <option>Lamborgini</option>
                 <option>Mercedes</option>
@@ -70,7 +75,7 @@ const Cars = () => {
           <div className='w-full'>
             <div className='grid grid-cols-1 justify-center items-center md:grid-cols-2 xl:grid-cols-3 gap-5 mx-5 '>
               {
-                carsData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
+                carsData?.slice(0, 6).map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
               }
             </div>
           </div>

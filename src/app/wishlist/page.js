@@ -3,7 +3,7 @@ import { Context } from '@/contexts/context';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
-const page = () => {
+const WishList = () => {
     const { setLoading, wishList, setWishList } = useContext(Context)
 
     console.log(wishList)
@@ -49,4 +49,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default WishList;

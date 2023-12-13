@@ -1,10 +1,11 @@
 "use client"
+import StripeCheckout from '@/components/stripeCheckout/StripeCheckout';
 import { Context } from '@/contexts/context';
 import axios from 'axios';
 import { format } from 'date-fns';
 import React, { useContext, useEffect, useState } from 'react';
 
-const myBooking = () => {
+const MyBooking = () => {
     const [bookings, setBookings] = useState([])
     const { setLoading } = useContext(Context)
     const { userInfo } = useContext(Context)
@@ -13,7 +14,7 @@ const myBooking = () => {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`/api/car/bookings/user-bookings?email=${userInfo?.email}`);
+                const response = await axios.get(`/api/car/bookings/user-bookings?email=${userInfo?.email}`,{ cache: 'no-store' });
                 console.log(response.data)
                 setBookings(response?.data?.data)
                 setLoading(false)
@@ -57,7 +58,7 @@ const myBooking = () => {
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{returnFormatDate}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">${price}</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{paymentStatus == false ? 'not paid' : 'paid'}</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium"><button>CheckOut</button></td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium"><StripeCheckout booking={booking} /></td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{status}</td>
                             </tr>
                         );
@@ -68,4 +69,4 @@ const myBooking = () => {
     );
 };
 
-export default myBooking;
+export default MyBooking;

@@ -6,20 +6,20 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AiTwotoneDelete, AiTwotoneEdit } from 'react-icons/ai';
 
-const myCars = () => {
+const MyCars = () => {
     const [myCar, setMyCar] = useState([])
     const router = useRouter();
     // const [refreshPage, setRefreshPage] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('/api/car/get-car')
+            const response = await axios.get('/api/car/get-car',{ cache: 'no-store' })
             setMyCar(response?.data?.data)
         }
         fetchData();
     }, [])
     const handleDelete = async (id) => {
-        const response = await axios.delete(`/api/car/get-car/${id}`)
+        const response = await axios.delete(`/api/car/get-car/${id}`,{ cache: 'no-store' })
         if (response?.data.status == 200) {
             router.refresh();
             // setRefreshPage(!refreshPage)
@@ -67,4 +67,4 @@ const myCars = () => {
     );
 };
 
-export default myCars;
+export default MyCars;

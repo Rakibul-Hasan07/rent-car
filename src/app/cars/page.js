@@ -1,13 +1,14 @@
 'use client'
 import CarsCard from '@/components/cars/CarsCard';
+import Loader from '@/components/loader/Loader';
 import Search from '@/components/search/Search';
 import { Context } from '@/contexts/context';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 
-const cars = () => {
+const Cars = () => {
     const [allCarData, setAllCarData] = useState([])
-    const { setLoading, searchResult, setSearchResult } = useContext(Context)
+    const { loading, setLoading, searchResult, setSearchResult } = useContext(Context)
     const [brand, setBrand] = useState('')
     const [price, setPrice] = useState('')
 
@@ -25,7 +26,7 @@ const cars = () => {
             try {
                 setLoading(true)
                 if (brand || price) {
-                    const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}&price=${price}`);
+                    const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}&price=${price}`, { cache: 'no-store' });
                     setAllCarData(response?.data?.data);
                     return;
                 }
@@ -40,7 +41,9 @@ const cars = () => {
         fetchData();
     }, [setAllCarData, setLoading, brand, price]);
 
-    console.log(allCarData)
+    if (loading) {
+        return <Loader />
+    }
     return (
         <div className='mx-4'>
             <Search />
@@ -51,7 +54,7 @@ const cars = () => {
                     </label>
                     <div className="relative mt-2.5 shadow-lg">
                         <select onChange={(e) => setBrand(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="brandName">
                             <option>Toyota</option>
                             <option>Lamborgini</option>
                             <option>Mercedes</option>
@@ -71,7 +74,7 @@ const cars = () => {
                     </label>
                     <div className="relative mt-2.5 shadow-lg">
                         <select onChange={(e) => setPrice(e.target.value)} name="sortPrice" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="sortPrice">
                             <option>High To Low</option>
                             <option>Low To High</option>
                         </select>
@@ -93,4 +96,4 @@ const cars = () => {
     );
 };
 
-export default cars;   
+export default Cars;   

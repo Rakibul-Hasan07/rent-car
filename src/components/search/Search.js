@@ -29,7 +29,7 @@ export default function Search() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const response = await axios.get(`api/car/get-car/search?city=${selectedCity}&area=${selectedArea}`)
+    const response = await axios.get(`api/car/get-car/search?city=${selectedCity}&area=${selectedArea}`, { cache: 'no-store' })
     setSearchResult(response?.data?.data)
     console.log(response?.data?.data)
   }
@@ -42,12 +42,12 @@ export default function Search() {
           {/* City selection */}
 
           <div className='w-72 xl:w-60 mb-4'>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="city">
               City
             </label>
             <div className="relative shadow-lg">
-              <select onChange={(e) => setSelectedCity(e.target.value)} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+              <select onChange={(e) => setSelectedCity(e.target.value)} name="city" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="city">
                 <option>Dhaka</option>
                 <option>Rajshahi</option>
                 <option>Khulna</option>
@@ -67,12 +67,12 @@ export default function Search() {
           {/* Area selection */}
 
           <div className='w-72 xl:w-60 mb-4'>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="areaName">
               Area
             </label>
             <div className="relative shadow-lg">
               <select onChange={(e) => setSelectedArea(e.target.value)} name="areaName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="areaName">
                 <option>Kamarkhand</option>
                 <option>Belkuchi</option>
                 <option>Kazipur</option>
@@ -85,7 +85,7 @@ export default function Search() {
 
           {/* Pickup Date selection */}
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pickUpDate">
               PickUp Date
             </label>
             <div className="w-72 xl:w-60">
@@ -95,6 +95,7 @@ export default function Search() {
                     <Combobox.Input
                       className="w-full border py-3 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
                       placeholder='Click to calendar icon'
+                      id="pickUpDate"
                       disabled
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -129,7 +130,7 @@ export default function Search() {
           {/* Return date selection */}
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="returnUpDate">
               Return Date
             </label>
             <div className="w-72 xl:w-60">
@@ -139,6 +140,7 @@ export default function Search() {
                     <Combobox.Input
                       className="w-full border py-3 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
                       placeholder='Click to calendar icon'
+                      id='returnUpDate'
                       disabled
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">

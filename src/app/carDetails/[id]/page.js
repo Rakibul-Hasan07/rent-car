@@ -4,17 +4,15 @@ import { Context } from '@/contexts/context';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 
-const page = ({ params }) => {
+const CarDetailsWithId = ({ params }) => {
     const { loading, setLoading } = useContext(Context)
-    // const detailsData = carsData.find((carData) => carData?._id === params.id)
-    // console.log(carsData)
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`/api/car/get-car/${params?.id}`);
+                const response = await axios.get(`/api/car/get-car/${params?.id}`,{ cache: 'no-store' });
                 setDetailsData(response?.data?.data);
                 setLoading(false)
             } catch (error) {
@@ -32,4 +30,4 @@ const page = ({ params }) => {
     );
 };
 
-export default page;
+export default CarDetailsWithId;

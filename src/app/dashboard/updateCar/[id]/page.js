@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-const updateCar = ({ params }) => {
+const UpdateCar = ({ params }) => {
     const id = params.id;
 
     const [selectedImages, setSelectedImages] = useState([]);
@@ -135,12 +135,12 @@ const updateCar = ({ params }) => {
                 </div>
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="brandName" className="block text-sm font-semibold leading-6 text-gray-900">
                             Brand Name
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={brandName} name="brandName" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="brandName">
                                 <option>Toyota</option>
                                 <option>Lamborgini</option>
                                 <option>Mercedes</option>
@@ -155,7 +155,7 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carModelName" className="block text-sm font-semibold leading-6 text-gray-900">
                             Car model name
                         </label>
                         <div className="mt-2.5">
@@ -163,14 +163,14 @@ const updateCar = ({ params }) => {
                                 defaultValue={carModelName}
                                 type="text"
                                 name="carModelName"
-                                id="last-name"
+                                id="carModelName"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="bodyType" className="block text-sm font-semibold leading-6 text-gray-900">
                             Body Type
                         </label>
                         <div className="mt-2.5">
@@ -178,19 +178,19 @@ const updateCar = ({ params }) => {
                                 defaultValue={bodyType}
                                 type="text"
                                 name="bodyType"
-                                id="first-name"
+                                id="bodyType"
                                 autoComplete="given-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="year" className="block text-sm font-semibold leading-6 text-gray-900">
                             Year
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carYear} name="year" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="year">
                                 <option>2016</option>
                                 <option>2017</option>
                                 <option>2018</option>
@@ -206,12 +206,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carTransmission" className="block text-sm font-semibold leading-6 text-gray-900">
                             Transmission
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carTransmission} name="carTransmission" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carTransmission">
                                 <option>Automatic</option>
                                 <option>Manual</option>
                             </select>
@@ -221,12 +221,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carEngineCapacity" className="block text-sm font-semibold leading-6 text-gray-900">
                             Engine Capacity
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carEngineCapacity} name="carEngineCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carEngineCapacity">
                                 <option>0 L</option>
                                 <option>2 L</option>
                                 <option>3 L</option>
@@ -239,12 +239,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carFuelType" className="block text-sm font-semibold leading-6 text-gray-900">
                             Fuel Type
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carFuelType} name="carFuelType" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carFuelType">
                                 <option>Gasoline</option>
                                 <option>Oilline</option>
 
@@ -255,12 +255,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carSeatingCapacity" className="block text-sm font-semibold leading-6 text-gray-900">
                             Seating Capacity
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carSeatingCapacity} name="carSeatingCapacity" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carSeatingCapacity">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -278,12 +278,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carNumberOfDoors" className="block text-sm font-semibold leading-6 text-gray-900">
                             Number of Doors
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carNumberOfDoors} name="carNumberOfDoors" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carNumberOfDoors">
                                 <option>2</option>
                                 <option>4</option>
                             </select>
@@ -293,7 +293,7 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carMinimumRentalDays" className="block text-sm font-semibold leading-6 text-gray-900">
                             Minimum Rental Days
                         </label>
                         <div className="mt-2.5">
@@ -301,14 +301,14 @@ const updateCar = ({ params }) => {
                                 defaultValue={carMinimumRentalDays}
                                 type="text"
                                 name="carMinimumRentalDays"
-                                id="last-name"
+                                id="carMinimumRentalDays"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carMaximumRentalDays" className="block text-sm font-semibold leading-6 text-gray-900">
                             Maximum Rental Days
                         </label>
                         <div className="mt-2.5">
@@ -316,14 +316,14 @@ const updateCar = ({ params }) => {
                                 defaultValue={carMaximumRentalDays}
                                 type="text"
                                 name="carMaximumRentalDays"
-                                id="last-name"
+                                id="carMaximumRentalDays"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="rentPricePerDay" className="block text-sm font-semibold leading-6 text-gray-900">
                             Rental Price Per Day
                         </label>
                         <div className="mt-2.5">
@@ -331,19 +331,19 @@ const updateCar = ({ params }) => {
                                 defaultValue={rentPricePerDay}
                                 type="text"
                                 name="rentPricePerDay"
-                                id="last-name"
+                                id="rentPricePerDay"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carColor" className="block text-sm font-semibold leading-6 text-gray-900">
                             Color
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carColor} name="carColor" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carColor">
                                 <option>Black</option>
                                 <option>Red</option>
                                 <option>Silver</option>
@@ -356,12 +356,12 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="carConditon" className="block text-sm font-semibold leading-6 text-gray-900">
                             Car Conditon
                         </label>
                         <div className="relative mt-2.5">
                             <select defaultValue={carConditon} name="carConditon" className="block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 
-                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="carConditon">
                                 <option>Excelent</option>
                                 <option>Medium</option>
                                 <option>New Car</option>
@@ -372,7 +372,7 @@ const updateCar = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="phoneNo" className="block text-sm font-semibold leading-6 text-gray-900">
                             Phone No
                         </label>
                         <div className="mt-2.5">
@@ -380,14 +380,14 @@ const updateCar = ({ params }) => {
                                 defaultValue={phoneNo}
                                 type="text"
                                 name="phoneNo"
-                                id="last-name"
+                                id="phoneNo"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
                             Email
                         </label>
                         <div className="mt-2.5">
@@ -395,7 +395,7 @@ const updateCar = ({ params }) => {
                                 defaultValue={email}
                                 type="text"
                                 name="email"
-                                id="last-name"
+                                id="email"
                                 autoComplete="family-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
@@ -411,10 +411,10 @@ const updateCar = ({ params }) => {
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
                                 value=""
-                                id="exampleCheck2" />
+                                id="acAvailabe" />
                             <label
                                 className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                htmlFor="exampleCheck2">
+                                htmlFor="acAvailabe">
                                 AC Availabe
                             </label>
                         </div>
@@ -428,10 +428,10 @@ const updateCar = ({ params }) => {
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
                                 value=""
-                                id="exampleCheck2" />
+                                id="acWorking" />
                             <label
                                 className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                htmlFor="exampleCheck2">
+                                htmlFor="acWorking">
                                 AC Working
                             </label>
                         </div>
@@ -445,10 +445,10 @@ const updateCar = ({ params }) => {
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
                                 value=""
-                                id="exampleCheck2" />
+                                id="blutooth" />
                             <label
                                 className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                htmlFor="exampleCheck2">
+                                htmlFor="blutooth">
                                 Blutooth
                             </label>
                         </div>
@@ -462,10 +462,10 @@ const updateCar = ({ params }) => {
                                 className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-black outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
                                 value=""
-                                id="exampleCheck2" />
+                                id="backupCamera" />
                             <label
                                 className="inline-block pl-[0.15rem] hover:cursor-pointer"
-                                htmlFor="exampleCheck2">
+                                htmlFor="backupCamera">
                                 Backup Camera
                             </label>
                         </div>
@@ -498,4 +498,4 @@ const updateCar = ({ params }) => {
     );
 };
 
-export default updateCar;
+export default UpdateCar;
