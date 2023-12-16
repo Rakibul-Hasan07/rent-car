@@ -9,7 +9,9 @@ import { FiHeart } from 'react-icons/fi';
 
 const CarsCard = ({ carData }) => {
     const { _id, carSeatingCapacity, carFuelType, carTransmission, rentPricePerDay, brandName, carModelName, carYear, carEngineCapacity } = carData;
-    const { userInfo } = useContext(Context)
+    const { userInfo, wishList, setRefreshPage, refreshPage } = useContext(Context)
+
+
     const handleWishList = async (_id, brandName, carEngineCapacity, carTransmission) => {
         const wishListData = {
             wishListCarId: _id,
@@ -20,11 +22,11 @@ const CarsCard = ({ carData }) => {
         }
         try {
             const response = await axios.post('/api/car/wish-list', wishListData, { cache: 'no-store' })
-            console.log(response.data)
-            if(response.data.status == 200){
-                toast.error('Added to Wishlist')
+            if (response.data.status == 200) {
+                toast.success('Added to Wishlist')
+                setRefreshPage(!refreshPage)
             }
-            else if(response.data.status == 400){
+            else if (response.data.status == 400) {
                 toast.error('Already Added')
             }
         } catch (error) {

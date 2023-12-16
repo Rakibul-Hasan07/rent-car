@@ -9,7 +9,6 @@ const stripe = new Stripe(key, {
 
 export async function POST(request, content) {
     const data = await request.json()
-    console.log(data)
     let id;
     try {
         const session = await stripe.checkout.sessions.create({

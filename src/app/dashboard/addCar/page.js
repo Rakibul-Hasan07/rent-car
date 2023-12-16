@@ -98,7 +98,6 @@ export default function AddCar() {
             };
             const response = await axios.post('/api/car/upload-car', carData)
                 .then((response) => {
-                    console.log(response)
                     if (response.status = 200) {
                         toast.success('Car Upload Successfully')
                     }

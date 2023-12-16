@@ -1,3 +1,4 @@
+import DbConnect from "@/services/DbConnect";
 import userModel from "@/services/model/userModel";
 import { NextResponse } from "next/server";
 
@@ -13,6 +14,7 @@ router.post(async (request, content) => {
         process.env.NEXT_PUBLIC_SECRET_TOKEN,
     )
     try {
+        await DbConnect();
         const requestData = await request.json();
         const { authToken } = requestData;
         const { payload } = await jose.jwtVerify(authToken, secret)

@@ -13,7 +13,6 @@ const Cars = () => {
   const [carsData, setCarsData] = useState([])
   const [brand, setBrand] = useState('')
 
-  console.log(searchResult)
 
   useEffect(() => {
     if (searchResult.length) {
@@ -30,9 +29,10 @@ const Cars = () => {
         if (brand) {
           const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}`, { cache: 'no-store' });
           setCarsData(response?.data?.data);
+          setLoading(false)
           return;
         }
-        const response = await axios.get(`/api/car/get-car`, { cache: 'no-store' });
+        const response = await axios.get('/api/car/get-car', { cache: 'no-store' });
         setCarsData(response?.data?.data);
         setLoading(false)
       } catch (error) {
@@ -42,10 +42,6 @@ const Cars = () => {
 
     fetchData();
   }, [brand, setLoading]);
-
-  if(loading){
-    return <Loader/>
-  }
 
 
   return (
@@ -75,7 +71,7 @@ const Cars = () => {
           <div className='w-full'>
             <div className='grid grid-cols-1 justify-center items-center md:grid-cols-2 xl:grid-cols-3 gap-5 mx-5 '>
               {
-                carsData?.slice(0, 6).map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
+                loading ? <Loader /> : carsData?.slice(0, 6).map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
               }
             </div>
           </div>

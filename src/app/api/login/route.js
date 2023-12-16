@@ -40,7 +40,7 @@ export const POST = async (request, content) => {
         return NextResponse.json({
             status: "Success",
             message: "Login successfully",
-            data: { token }
+            data: { token, findUser }
         });
     } catch (error) {
         // Handle errors and return an error response

@@ -12,7 +12,6 @@ import Image from 'next/image';
 const Navbar = () => {
     const [open, setOpen] = useState(false)
     const { userInfo, logOut, wishList } = useContext(Context)
-    console.log(userInfo)
     return (
         <div className='flex items-center justify-between'>
             <Image className='h-[50px] w-[50px] md:w-[100px] md:h-[100px] xl:h-[120px] xl:w-[120px]' src="/logo.png" height={100} width={150} alt="logo"/>
@@ -50,7 +49,7 @@ const Navbar = () => {
                         <Link className='navbar_link relative' href='#'>FAQ</Link>
                         <Link className='navbar_link relative' href='#'>About</Link>
                         <Link className='navbar_link relative' href='/contact'>Contact</Link>
-                        <Link className='navbar_link relative' href='/dashboard'>Dashboard</Link>
+                        <Link className='navbar_link relative' href='/dashboard/monitoring'>Dashboard</Link>
                         {userInfo?.email ? <Link onClick={() => logOut()} className='navbar_link relative' href=''>LogOut</Link> : <> <Link className='navbar_link relative' href='/auth/login'>Login</Link>
                             <Link className='navbar_link relative' href='/auth/register'>Register</Link></>}
                     </div>

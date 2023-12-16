@@ -18,7 +18,7 @@ const Login = () => {
     const [loginError, setLoginError] = useState('')
     const [refreshPage, setRefreshPage] = useState(false)
     const router = useRouter()
-    const { loading, setIsLogin } = useContext(Context)
+    const { loading, setIsLogin, setUserInfo } = useContext(Context)
 
 
     const handleLogin = async (event) => {
@@ -42,6 +42,7 @@ const Login = () => {
             }
             else if (result.status == "Success") {
                 setLoginError('')
+                setUserInfo(result?.data?.findUser)
                 setCookie(result?.data?.token)
                 setIsLogin(true);
                 if (loading) {
@@ -177,7 +178,6 @@ const Login = () => {
 
                                     {/* <!-- Facebook --> */}
                                     <button
-                                        onClick={() => console.log('first')}
                                         type="button"
                                         data-te-ripple-init
                                         data-te-ripple-color="light"

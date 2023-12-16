@@ -47,7 +47,6 @@ const Register = () => {
                 body: JSON.stringify(userData),
             });
             const result = await response.json();
-            console.log(result)
             if (result.status == 500) {
                 setRegisterError(result?.error?.errors?.confirmPassword?.message)
             }
@@ -58,7 +57,7 @@ const Register = () => {
                 toast.success('Register Successfully')
                 setRegisterError('')
                 router.push('/auth/login')
-            } console.log(registerError)
+            }
 
         }
         catch (error) {

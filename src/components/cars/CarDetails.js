@@ -204,6 +204,7 @@ const CarDetails = ({ detailsData }) => {
                                                 <Calendar
                                                     date={new Date()}
                                                     onChange={handleSelectStart}
+                                                    defaultValue=""
                                                     format="dd/MM/yyyy"
                                                     minDate={addDays(new Date(), 0)}
                                                 />
@@ -248,6 +249,7 @@ const CarDetails = ({ detailsData }) => {
                  shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                                                 <Calendar
                                                     onChange={handleSelectEnd}
+                                                    defaultValue=""
                                                     date={new Date()}
                                                     format="dd/MM/yyyy"
                                                     minDate={addDays(new Date(), 0)}
@@ -268,19 +270,25 @@ const CarDetails = ({ detailsData }) => {
                             <p>District</p>
                             <input onChange={(e) => setDistrict(e.target.value)} className="shadow appearance-none border rounded w-64 py-2 
                                     px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="distict" placeholder='Type here........' />
+                                id="distict"
+                                defaultValue=""
+                                placeholder='Type here........' />
                         </div>
                         <div className='flex items-center justify-between gap-6 mb-3'>
                             <p>City</p>
                             <input onChange={(e) => setCity(e.target.value)} className="shadow appearance-none border rounded w-64 py-2 
                                     px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="city" placeholder='Type here........' />
+                                id="city"
+                                defaultValue=""
+                                placeholder='Type here........' />
                         </div>
                         <div className='flex items-center justify-between gap-6'>
                             <p>Street</p>
                             <input onChange={(e) => setStreet(e.target.value)} className="hadow appearance-none border rounded w-64 py-2 
                                     px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="street" placeholder='Type here........' />
+                                id="street"
+                                defaultValue=""
+                                placeholder='Type here........' />
                         </div>
                     </div>
                     {/* rental info */}

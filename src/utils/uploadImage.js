@@ -12,5 +12,4 @@ export const uploadCarImages = async (req, res, next) => {
         urls.push(imgURL);
         fs.ullinkSync(path);
     }
-    console.log(urls)
 }

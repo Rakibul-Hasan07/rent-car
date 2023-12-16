@@ -9,9 +9,8 @@ const router = createRouter();
 router.put(async (request, content) => {
     const { id } = content.params;
     try {
-        DbConnect();
+        await DbConnect();
         const requestData = await request.json();
-        console.log(requestData)
         const updateBookingData = await bookingModel.findByIdAndUpdate(id, requestData, { new: true })
         if (!updateBookingData) {
             return NextResponse.json({

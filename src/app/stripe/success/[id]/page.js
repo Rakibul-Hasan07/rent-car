@@ -9,10 +9,8 @@ const SuccessPage = ({ params }) => {
     useEffect(() => {
         const updateData = { paymentStatus: true };
         if (id) {
-            console.log(id)
             const fetchData = async () => {
                 const response = await axios.put(`/api/car/bookings/my-car/${id}`,{ cache: 'no-store' }, updateData)
-                console.log(response)
             }
             fetchData();
         }

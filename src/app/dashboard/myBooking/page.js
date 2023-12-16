@@ -15,7 +15,6 @@ const MyBooking = () => {
             try {
                 setLoading(true)
                 const response = await axios.get(`/api/car/bookings/user-bookings?email=${userInfo?.email}`,{ cache: 'no-store' });
-                console.log(response.data)
                 setBookings(response?.data?.data)
                 setLoading(false)
             } catch (error) {

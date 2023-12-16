@@ -11,6 +11,7 @@ import { FaChevronDown } from "react-icons/fa";
 const AdminBooking = () => {
     const [bookings, setBookings] = useState([])
     const { setLoading } = useContext(Context)
+    const [refreshPage, setRefreshPage] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,7 +26,7 @@ const AdminBooking = () => {
         };
 
         fetchData();
-    }, [setLoading]);
+    }, [setLoading, refreshPage]);
 
     const pendingData = {
         status: 'Pending',
@@ -37,14 +38,23 @@ const AdminBooking = () => {
         status: 'Rejected',
     };
     const handlePending = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, pendingData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, pendingData)
+        if (response?.data.status == 200) {
+            setRefreshPage(!refreshPage)
+        }
     }
     const handleReject = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, rejectData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, rejectData)
+        if (response?.data.status == 200) {
+            setRefreshPage(!refreshPage)
+        }
     }
 
     const handleApproved = async (id) => {
-        const response = await axios.put(`/api/car/bookings/my-car/${id}`, { cache: 'no-store' }, approveData)
+        const response = await axios.put(`/api/car/bookings/my-car/${id}`, approveData)
+        if (response?.data.status == 200) {
+            setRefreshPage(!refreshPage)
+        }
     }
 
     return (

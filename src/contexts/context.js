@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState([]);
     const [wishList, setWishList] = useState([])
     const [searchResult, setSearchResult] = useState([])
+    const [refreshPage, setRefreshPage] = useState(false)
 
     const router = useRouter()
 
@@ -23,7 +24,6 @@ const ContextProvider = ({ children }) => {
             try {
                 setLoading(true);
                 const authToken = await getCookie('authToken');
-                console.log(authToken)
                 if (authToken || isLogin) {
                     axios
                         .post(`/api/user-info`, { authToken })
@@ -59,7 +59,6 @@ const ContextProvider = ({ children }) => {
             try {
                 setLoading(true)
                 const response = await axios.get(`/api/car/wish-list?email=${userInfo?.email}`, { cache: 'no-store' });
-                console.log(response.data)
                 setWishList(response?.data?.data)
                 setLoading(false)
             } catch (error) {
@@ -68,7 +67,7 @@ const ContextProvider = ({ children }) => {
         };
 
         fetchData();
-    }, [userInfo?.email, setLoading]);
+    }, [userInfo?.email, setLoading, refreshPage]);
 
 
     const contextInfo = {
@@ -84,7 +83,9 @@ const ContextProvider = ({ children }) => {
         searchResult,
         setSearchResult,
         isLogin,
-        setIsLogin
+        setIsLogin,
+        refreshPage,
+        setRefreshPage
     }
     return (
         <Context.Provider value={contextInfo}>

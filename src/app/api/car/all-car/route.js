@@ -6,26 +6,16 @@ import { NextResponse } from "next/server";
 const router = createRouter();
 
 router.get(async (request, content) => {
-    const { searchParams } = new URL(request.url)
-    const city = searchParams.get('city')
-    const area = searchParams.get('area')
     try {
         await DbConnect();
-        const query = {
-            $or: [
-                { carCity: { $regex: city, $options: 'i' } },
-                { area: { $regex: area, $options: 'i' } },
-            ],
-        };
-        const getData = await carModel.find(query);
+        const getData = await carModel.find();
         if (!getData) {
             return NextResponse.json({
                 status: 400,
                 success: false,
-                error: "Failed to find car data",
+                error: "Can't get data",
             });
         }
-
         return NextResponse.json({
             status: 200,
             success: true,
@@ -35,13 +25,14 @@ router.get(async (request, content) => {
         return NextResponse.json({
             status: 400,
             success: false,
-            message: "Car Search Server Error"
+            message: "Server Error"
         })
     }
-})
 
 
+});
 
-export const GET = (request, content) => {
+
+export async function GET(request, content) {
     return router.run(request, content);
 }

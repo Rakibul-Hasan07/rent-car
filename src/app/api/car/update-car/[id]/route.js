@@ -9,7 +9,6 @@ router.put(async (request, content) => {
     try {
         DbConnect();
         const requestData = await request.json();
-        console.log(requestData)
         const updateBookingData = await carModel.findByIdAndUpdate(id, requestData, { new: true })
         if (!updateBookingData) {
             return NextResponse.json({

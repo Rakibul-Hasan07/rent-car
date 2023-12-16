@@ -8,7 +8,7 @@ const router = createRouter();
 
 router.post(async (request, content) => {
     try {
-        DbConnect();
+        await DbConnect();
         const requestData = await request.json();
         const bookingData = await new bookingModel(requestData)
         const savedBookingData = await bookingData.save();

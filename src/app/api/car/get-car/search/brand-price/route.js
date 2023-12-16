@@ -1,18 +1,17 @@
 import DbConnect from "@/services/DbConnect";
 import carModel from "@/services/model/carModel";
-import { createEdgeRouter } from "next-connect";
+import { createRouter } from "next-connect";
 import { NextResponse } from "next/server";
 
-const router = createEdgeRouter()
+const router = createRouter();
 
 router.get(async (request, content) => {
     const { searchParams } = new URL(request.url)
     const brand = searchParams.get('brand')
     const price = searchParams.get('price')
 
-    console.log(brand, price)
     try {
-        DbConnect();
+        await DbConnect();
         const query = {
             $or: [
                 { brandName: { $regex: brand, $options: 'i' } },

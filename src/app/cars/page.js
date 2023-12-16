@@ -12,7 +12,6 @@ const Cars = () => {
     const [brand, setBrand] = useState('')
     const [price, setPrice] = useState('')
 
-    console.log(searchResult)
     useEffect(() => {
         if (searchResult.length) {
             setAllCarData(searchResult)
@@ -28,9 +27,10 @@ const Cars = () => {
                 if (brand || price) {
                     const response = await axios.get(`/api/car/get-car/search/brand-price?brand=${brand}&price=${price}`, { cache: 'no-store' });
                     setAllCarData(response?.data?.data);
+                    setLoading(false)
                     return;
                 }
-                const response = await axios.get(`/api/car/get-car`);
+                const response = await axios.get(`/api/car/get-car`, { cache: 'no-store' });
                 setAllCarData(response?.data?.data);
                 setLoading(false)
             } catch (error) {
@@ -41,9 +41,6 @@ const Cars = () => {
         fetchData();
     }, [setAllCarData, setLoading, brand, price]);
 
-    if (loading) {
-        return <Loader />
-    }
     return (
         <div className='mx-4'>
             <Search />
@@ -86,7 +83,7 @@ const Cars = () => {
                 <div className='w-full'>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-5 ml-5 '>
                         {
-                            allCarData.length <= 0 ? 'Not Found' : allCarData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
+                            loading ? <Loader /> : allCarData.length <= 0 ? 'Not Found' : allCarData?.map((carData, idx) => <div key={idx}><CarsCard carData={carData} /></div>)
                         }
                     </div>
 

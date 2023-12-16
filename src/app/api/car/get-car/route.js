@@ -1,13 +1,13 @@
 import DbConnect from "@/services/DbConnect";
 import carModel from "@/services/model/carModel";
-import { createEdgeRouter } from "next-connect";
+import { createRouter } from "next-connect";
 import { NextResponse } from "next/server";
 
-const router = createEdgeRouter()
+const router = createRouter();
 
 router.get(async (request, content) => {
     try {
-        DbConnect();
+        await DbConnect();
         const getData = await carModel.find();
         if (!getData) {
             return NextResponse.json({

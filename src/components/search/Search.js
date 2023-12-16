@@ -31,7 +31,6 @@ export default function Search() {
     e.preventDefault();
     const response = await axios.get(`api/car/get-car/search?city=${selectedCity}&area=${selectedArea}`, { cache: 'no-store' })
     setSearchResult(response?.data?.data)
-    console.log(response?.data?.data)
   }
 
   return (

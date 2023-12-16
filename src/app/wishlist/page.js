@@ -4,9 +4,8 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
 const WishList = () => {
-    const { setLoading, wishList, setWishList } = useContext(Context)
+    const { wishList } = useContext(Context)
 
-    console.log(wishList)
 
     return (
         <div className=' bg-white px-6 py-10 h-[100vh] lg:px-8'>

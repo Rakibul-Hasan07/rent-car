@@ -70,7 +70,6 @@ const UpdateCar = ({ params }) => {
 
             const responses = await Promise.all(uploadPromises);
             const urls = responses.map((response) => response.data.data.url);
-            console.log(urls)
 
             const carUpdateData = {
                 images: urls,
@@ -99,7 +98,6 @@ const UpdateCar = ({ params }) => {
             };
             const response = await axios.put(`/api/car/update-car/${id}`, carUpdateData)
                 .then((response) => {
-                    console.log(response)
                     if (response.status = 200) {
                         toast.success('Car Update Successfully')
                     }
@@ -107,7 +105,6 @@ const UpdateCar = ({ params }) => {
                 .catch((error) => {
                     toast.error(error.message)
                 })
-            console.log(carUpdateData)
         } catch (error) {
             console.error(error);
         }
