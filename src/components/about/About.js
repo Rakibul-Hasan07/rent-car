@@ -12,7 +12,7 @@ export default function About() {
     threshold: 0.5,
   });
   return (
-    <section className='section flex items-center bg-pink-200 h-[800px] lg:h-[550px]' id="about">
+    <section className='section flex items-center bg-gray-100 h-[800px] lg:h-[550px]' id="about">
       <div className='mx-auto'>
         <div className='flex flex-col lg:flex-row mx-5 gap-x-12 items-center lg:justify-between'>
           {/* image */}

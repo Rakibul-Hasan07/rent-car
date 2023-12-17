@@ -7,25 +7,25 @@ export default function contact() {
         <div className='bg-gray-50 h-[100vh] flex flex-col-reverse md:flex-row gap-4 justify-center items-center px-12'>
             <div className='flex-1'>
                 <h1 className='text-xl'>Get in Touch</h1>
-                <p className='max-w-[500px]'>lorem This handy tool helps you create dummy text for all your layout needs.
-                    We are gradually </p>
+                <p className='max-w-[500px]'>Have questions or need assistance? Feel free to reach out to us using the contact details
+          below, and we will get back to you as soon as possible. </p>
                 <div className='mt-6 flex flex-col gap-4'>
                     <div className='flex items-center gap-4'>
-                        <AiOutlinePhone className='border border-black rounded-full' size={30}/>
+                        <AiOutlinePhone size={30}/>
                         <span>
                             <h2>PHONE</h2>
                             <p>+8801846472428</p>
                         </span>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <AiOutlineMail className='border border-black rounded-full' size={30}/>
+                        <AiOutlineMail size={30}/>
                         <span>
                             <h2>EMAIL</h2>
                             <p>iamrakibulhasaan@gmail.com</p>
                         </span>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <MdLocationPin className='border border-black rounded-full' size={30}/>
+                        <MdLocationPin size={30}/>
                         <span>
                             <h2>LOCATION</h2>
                             <p>Mohakhali, Dhaka</p>

@@ -80,7 +80,7 @@ const CarDetails = ({ detailsData }) => {
     return (
         <div className='mx-20'>
             <div className='grid grid-cols-3'>
-                <div className='col-span-2 bg-gray-200 p-4'>
+                <div className='col-span-2 p-4'>
                     <div className='mb-4'>
                         <h4>{brandName} {carYear}</h4>
                         <p>Bangladesh</p>

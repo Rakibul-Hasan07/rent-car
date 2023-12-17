@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { BsSearch } from 'react-icons/bs'
 import { FiHeart } from 'react-icons/fi'
 import { BiUser } from 'react-icons/bi'
-import { AiOutlineClose, AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Context } from '@/contexts/context';
 import Image from 'next/image';
 
@@ -13,8 +13,8 @@ const Navbar = () => {
     const [open, setOpen] = useState(false)
     const { userInfo, logOut, wishList } = useContext(Context)
     return (
-        <div className='flex items-center justify-between'>
-            <Image className='h-[50px] w-[50px] md:w-[100px] md:h-[100px] xl:h-[120px] xl:w-[120px]' src="/logo.png" height={100} width={150} alt="logo"/>
+        <div className='flex items-center justify-between bg-gray-200'>
+            <Link href='/'><Image className='h-[50px] w-[50px] md:w-[100px] md:h-[100px] xl:h-[120px] xl:w-[120px]' src="/logo.png" height={100} width={150} alt="logo" /></Link>
             <div className='md:hidden'>
                 {open ?
                     <AiOutlineClose onClick={() => setOpen(!open)} className='z-20 fixed right-5 top-5' size={20} /> :
@@ -46,8 +46,8 @@ const Navbar = () => {
                     <div className='flex flex-col md:flex-row w-fit gap-6 lg:gap-10 mx-auto font-medium py-4 text-black'>
                         <Link className='navbar_link relative' href='/'>Home</Link>
                         <Link className='navbar_link relative' href='/cars'>Cars</Link>
-                        <Link className='navbar_link relative' href='#'>FAQ</Link>
-                        <Link className='navbar_link relative' href='#'>About</Link>
+                        <Link className='navbar_link relative' href='/faq'>FAQ</Link>
+                        <Link className='navbar_link relative' href='/about-us'>About</Link>
                         <Link className='navbar_link relative' href='/contact'>Contact</Link>
                         <Link className='navbar_link relative' href='/dashboard/monitoring'>Dashboard</Link>
                         {userInfo?.email ? <Link onClick={() => logOut()} className='navbar_link relative' href=''>LogOut</Link> : <> <Link className='navbar_link relative' href='/auth/login'>Login</Link>

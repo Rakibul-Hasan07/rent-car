@@ -6,7 +6,7 @@ import Hero from "../../components/hero/Hero";
 import Testimonial from "../../components/testimonial/Testimonial";
 import Footer from "@/components/footer/Footer";
 import Search from "@/components/search/Search";
-import Loader from "@/components/loader/Loader";
+import FaqSection from "@/components/faq/FaqSection";
 
 
 export default function Home() {
@@ -18,8 +18,9 @@ export default function Home() {
       <Cars />
       <About />
       <Testimonial />
-      <Footer />
-      <CopyRight />
+      <FaqSection/>
+      <Footer/>
+      <CopyRight/>
     </main>
   )
 }

@@ -2,6 +2,7 @@ import { Context } from '@/contexts/context';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 import { AiFillSnippets, AiFillTool, AiOutlineAntDesign, AiOutlineUsergroupAdd } from 'react-icons/ai';
@@ -10,6 +11,7 @@ import { FiHeart } from 'react-icons/fi';
 const CarsCard = ({ carData }) => {
     const { _id, carSeatingCapacity, carFuelType, carTransmission, rentPricePerDay, brandName, carModelName, carYear, carEngineCapacity } = carData;
     const { userInfo, wishList, setRefreshPage, refreshPage } = useContext(Context)
+    const router = useRouter();
 
 
     const handleWishList = async (_id, brandName, carEngineCapacity, carTransmission) => {
@@ -19,6 +21,9 @@ const CarsCard = ({ carData }) => {
             carEngineCapacity,
             carTransmission,
             wishListUserEmail: userInfo?.email
+        }
+        if (!userInfo?.email) {
+            return router.push('/auth/login')
         }
         try {
             const response = await axios.post('/api/car/wish-list', wishListData, { cache: 'no-store' })
