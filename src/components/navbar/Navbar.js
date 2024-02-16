@@ -137,9 +137,14 @@ const Navbar = () => {
                         <Link className='navbar_link relative' href='/faq'>FAQ</Link>
                         <Link className='navbar_link relative' href='/about-us'>About</Link>
                         <Link className='navbar_link relative' href='/contact'>Contact</Link>
+                        {
+                            userInfo?.email
+                                ?
+                                userInfo?.role == 'admin' ? <Link className='navbar_link relative' href='/dashboard/monitoring'>Dashboard</Link> : <Link className='navbar_link relative' href='/dashboard/myBooking'>Dashboard</Link>
+                                : <></>
+                        }
 
-
-                        {userInfo?.email ? <><Link className='navbar_link relative' href='/dashboard/monitoring'>Dashboard</Link> <Link onClick={() => logOut()} className='navbar_link relative' href=''>LogOut</Link></> : <> <Link className='navbar_link relative' href='/auth/login'>Login</Link>
+                        {userInfo?.email ? <> <Link onClick={() => logOut()} className='navbar_link relative' href=''>LogOut</Link></> : <> <Link className='navbar_link relative' href='/auth/login'>Login</Link>
                             <Link className='navbar_link relative' href='/auth/register'>Register</Link></>}
                     </div>
                 </div>
